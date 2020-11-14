@@ -1,4 +1,4 @@
-package observer;
+package com.example.smartalarm.observer;
 
 import java.beans.PropertyChangeListener;
 
@@ -8,6 +8,8 @@ public interface iSubject {
    void addObserver(PropertyChangeListener o);
 
    void removeObserver(PropertyChangeListener o);
+
+   PropertyChangeListener[] getObservers();
 
    void notifyObservers(Object oldObj, Object newObj);
 }

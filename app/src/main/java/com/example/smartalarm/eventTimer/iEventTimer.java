@@ -1,5 +1,5 @@
 package com.example.smartalarm.eventTimer;
 
-public interface EventTimer {
+public interface iEventTimer {
    void timeEvent();
 }

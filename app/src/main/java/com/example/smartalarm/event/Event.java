@@ -2,26 +2,16 @@ package com.example.smartalarm.event;
 
 import com.example.smartalarm.eventTimer.iEventTimer;
 
-public class Event {
+public abstract class Event {
    public Event(){
       super();
    }
 
-   public void setEventTimer(iEventTimer et){
-      timer = et;
-   }
+   public abstract void activateEvent();
 
-   public iEventTimer getEventTimer(){
-      return timer;
-   }
+   public abstract void deactivateEvent();
 
-   public void activateEvent(){
-      //TODO: handle event activation
+   public void addAction(){
+      
    }
-
-   public void deactivateEvent(){
-      //TODO: handle event deactivation
-   }
-
-   private iEventTimer timer;
 }

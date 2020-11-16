@@ -4,6 +4,7 @@ import com.example.smartalarm.observer.iSubject;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.Calendar;
 
 public abstract class Event implements iSubject {
    public Event(){
@@ -14,6 +15,18 @@ public abstract class Event implements iSubject {
    public abstract void activateEvent();
 
    public abstract void deactivateEvent();
+
+   public abstract void setDelay(Calendar c);
+
+   public abstract Calendar getDelay();
+
+   public void setName(String n){
+      name = n;
+   }
+
+   public String getName(){
+      return name;
+   }
 
    @Override
    public void addObserver(PropertyChangeListener observer){
@@ -36,4 +49,5 @@ public abstract class Event implements iSubject {
    }
 
    private PropertyChangeSupport subject;
+   private String name;
 }

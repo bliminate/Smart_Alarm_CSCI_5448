@@ -1,9 +1,11 @@
 package com.example.smartalarm.event;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Calendar;
 
-public class ImmediateEvent extends Event {
-   ImmediateEvent(){
+public class DelayedEvent extends Event implements PropertyChangeListener {
+   DelayedEvent(){
       super();
       currentState = "deactivated";
    }
@@ -12,7 +14,6 @@ public class ImmediateEvent extends Event {
    public void activateEvent() {
       String oldState = currentState;
       currentState = "activated";
-      notifyObservers(oldState, currentState);
    }
 
    @Override
@@ -24,7 +25,7 @@ public class ImmediateEvent extends Event {
 
    @Override
    public void setDelay(Calendar c) {
-      delay = Calendar.getInstance();
+      delay = c;
    }
 
    @Override
@@ -32,7 +33,15 @@ public class ImmediateEvent extends Event {
       return delay;
    }
 
+   @Override
+   public void propertyChange(PropertyChangeEvent evt) {
+      if(evt.getPropertyName().contains("clock")){
+         if(currentState.equals("activated")){
+            //TODO: implement checking if time after delay
+         }
+      }
+   }
+
    private String currentState;
    private Calendar delay;
-
 }

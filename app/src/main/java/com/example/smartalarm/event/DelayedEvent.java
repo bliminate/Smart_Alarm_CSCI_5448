@@ -37,8 +37,17 @@ public class DelayedEvent extends Event implements PropertyChangeListener {
    public void propertyChange(PropertyChangeEvent evt) {
       if(evt.getPropertyName().contains("clock")){
          if(currentState.equals("activated")){
-            //TODO: implement checking if time after delay
+            //TODO: Implement clock
+            checkDelay((Calendar) evt.getNewValue());
          }
+      }
+   }
+
+   protected void checkDelay(Calendar currentTime){
+      if(currentTime.after(delay)){
+         String oldState = currentState;
+         currentState = "occurring";
+         notifyObservers(oldState, currentState);
       }
    }
 

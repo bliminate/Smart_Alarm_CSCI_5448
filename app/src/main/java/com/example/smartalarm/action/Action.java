@@ -7,7 +7,7 @@ public abstract class Action implements PropertyChangeListener {
 
    public abstract void stopAction();
 
-   public abstract void setName();
+   public abstract void setName(String s);
 
    public abstract String getName();
 }

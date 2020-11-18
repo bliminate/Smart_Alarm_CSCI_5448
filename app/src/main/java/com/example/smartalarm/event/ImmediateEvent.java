@@ -5,20 +5,20 @@ import java.util.Calendar;
 public class ImmediateEvent extends Event {
    ImmediateEvent(){
       super();
-      currentState = "waiting";
+      currentState = "deactivated";
    }
 
    @Override
    public void activateEvent() {
       String oldState = currentState;
-      currentState = "active";
+      currentState = "activated";
       notifyObservers(oldState, currentState);
    }
 
    @Override
    public void deactivateEvent() {
       String oldState = currentState;
-      currentState = "waiting";
+      currentState = "deactivated";
       notifyObservers(oldState, currentState);
    }
 

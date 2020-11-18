@@ -50,4 +50,5 @@ public abstract class Event implements iSubject {
 
    private PropertyChangeSupport subject;
    private String name;
+   private String currentState;
 }

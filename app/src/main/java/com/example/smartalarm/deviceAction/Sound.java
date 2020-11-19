@@ -13,6 +13,7 @@ public class Sound implements iSound {
    public void playSound(Integer res) {
       MediaPlayer media = MediaPlayer.create(context, res);
       media.start();
+      media.release();
    }
 
    private Context context;

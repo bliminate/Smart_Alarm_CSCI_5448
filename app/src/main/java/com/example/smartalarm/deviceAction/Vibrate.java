@@ -18,7 +18,7 @@ public class Vibrate implements iVibrate{
    @Override
    public void vibrate() {
       Vibrator vibrate = (Vibrator) context.getSystemService(VIBRATOR_SERVICE);
-      vibrate.vibrate(VibrationEffect.createWaveform(new long[]{100,200,100}, new int[]{500, 400, 500}, 2));
+      vibrate.vibrate(VibrationEffect.createWaveform(new long[]{100,200,100}, new int[]{50, 250, 75}, 2));
    }
 
    private Context context;

@@ -1,29 +1,20 @@
 package com.example.smartalarm.action;
 
-import android.content.Context;
-import android.media.MediaPlayer;
-import android.os.Build;
-import android.os.VibrationEffect;
-import android.os.Vibrator;
-import androidx.annotation.RequiresApi;
-import androidx.core.content.ContextCompat;
-import com.example.smartalarm.R;
+import com.example.smartalarm.deviceAction.iSound;
+import com.example.smartalarm.deviceAction.iVibrate;
 
 import java.beans.PropertyChangeEvent;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-
-import static android.content.Context.VIBRATOR_SERVICE;
 
 public class AlarmAction extends Action {
-   public AlarmAction(Context ctx){
+   public AlarmAction(iVibrate v, iSound s){
       super();
       vibrate = false;
       soundResource = 0;
       threads = null;
-      context = ctx;
+      vib = v;
+      sound = s;
    }
 
    @Override
@@ -33,11 +24,9 @@ public class AlarmAction extends Action {
          if (vibrate) {
             //vibrate phone
             threads.submit(new Runnable() {
-               @RequiresApi(api = Build.VERSION_CODES.O)
                @Override
                public void run() {
-                  Vibrator vibrate = (Vibrator) context.getSystemService(VIBRATOR_SERVICE);
-                  vibrate.vibrate(VibrationEffect.createWaveform(new long[]{100,200,100}, new int[]{500, 400, 500}, 2));
+                  vib.vibrate();
                }
             });
          }
@@ -47,8 +36,7 @@ public class AlarmAction extends Action {
             threads.submit(new Runnable() {
                @Override
                public void run() {
-                  MediaPlayer media = MediaPlayer.create(context, soundResource);
-                  media.start();
+                  sound.playSound(soundResource);
                }
             });
          }
@@ -100,5 +88,6 @@ public class AlarmAction extends Action {
    private Boolean vibrate;
    private Integer soundResource;
    private ExecutorService threads;
-   private Context context;
+   private volatile iVibrate vib;
+   private volatile iSound sound;
 }

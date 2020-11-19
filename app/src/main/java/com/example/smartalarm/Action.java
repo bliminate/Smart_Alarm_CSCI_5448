@@ -2,7 +2,9 @@ package com.example.smartalarm;
 
 import java.io.Serializable;
 
-class Action implements Serializable {
+abstract class Action implements Serializable {
+    public String name;
+    public String type;
 }
 
 

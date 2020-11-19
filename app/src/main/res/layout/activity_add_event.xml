@@ -14,6 +14,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="32dp"
         android:background="#00FFFFFF"
+        android:onClick="stopCreateEvent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
@@ -22,13 +23,12 @@
         android:id="@+id/addActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="220dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:background="#00FFFFFF"
         android:onClick="createAction"
+        app:layout_constraintBottom_toBottomOf="@+id/spinner"
         app:layout_constraintStart_toEndOf="@+id/spinner"
-        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_add" />
 
     <EditText
@@ -49,35 +49,45 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:background="@drawable/shape_rouded_corners_5dp"
-        android:onClick="saveAction"
+        android:onClick="saveEvent"
         android:text="@string/save_event"
         app:layout_constraintBaseline_toBaselineOf="@+id/editEventName"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
         android:id="@+id/editEventDate"
-        android:layout_width="170dp"
+        android:layout_width="0dp"
         android:layout_height="42dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
         android:ems="10"
         android:hint="@string/choose_date"
+        android:focusableInTouchMode="false"
         android:inputType="date"
+        android:onClick="showDatePickerDialog"
         app:layout_constraintBottom_toBottomOf="@+id/datetimeImageView"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/datetimeImageView" />
 
     <EditText
         android:id="@+id/editEventTime"
         android:layout_width="0dp"
         android:layout_height="49dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
         android:ems="10"
+        android:hint="@string/choose_time"
+        android:focusableInTouchMode="false"
         android:inputType="time"
-        app:layout_constraintBaseline_toBaselineOf="@+id/editEventDate"
+        android:onClick="showTimePickerDialog"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/editEventDate" />
+        app:layout_constraintStart_toEndOf="@+id/datetimeImageView"
+        app:layout_constraintTop_toBottomOf="@+id/editEventDate" />
 
     <ImageView
         android:id="@+id/datetimeImageView"
@@ -85,7 +95,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="73dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/stopCreateEventButton"
         app:srcCompat="@android:drawable/ic_menu_recent_history" />
@@ -96,9 +106,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="53dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/datetimeImageView"
+        app:layout_constraintTop_toBottomOf="@+id/editEventTime"
         app:srcCompat="@android:drawable/ic_menu_preferences" />
 
     <Spinner

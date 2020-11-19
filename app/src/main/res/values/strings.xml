@@ -4,4 +4,15 @@
     <string name="save_action">Save</string>
     <string name="save_event">Save</string>
     <string name="choose_date">Choose Date</string>
+    <string name="upcoming_events"><![CDATA[Upcoming Events >]]></string>
+    <string name="actions">Actions</string>
+    <string name="createActionImage">createAction</string>
+    <string name="createEventImage">createEvent</string>
+    <string name="choose_time">Choose Time</string>
+    <string-array name="labels_array">
+        <item>Home</item>
+        <item>Work</item>
+        <item>Mobile</item>
+        <item>Other</item>
+    </string-array>
 </resources>

@@ -10,10 +10,6 @@ class Event implements Serializable {
         action = null;
     }
 
-    public Event(String name){
-        this.name = name;
-    }
-
     public Event(String name, Calendar calendar, String action) {
         this.name = name;
         this.calendar = calendar;
@@ -23,5 +19,6 @@ class Event implements Serializable {
     public String name;
     public Calendar calendar;
     public String action;
+    public boolean activated;
 }
 

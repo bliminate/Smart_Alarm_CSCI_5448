@@ -9,6 +9,9 @@
     <string name="createActionImage">createAction</string>
     <string name="createEventImage">createEvent</string>
     <string name="choose_time">Choose Time</string>
+    <string name="coffee_action_name">Name</string>
+    <string name="water_amount">Water Amount</string>
+    <string name="ground_amount">Ground Amount</string>
     <string-array name="labels_array">
         <item>Home</item>
         <item>Work</item>

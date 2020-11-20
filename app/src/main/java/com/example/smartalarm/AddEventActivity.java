@@ -26,6 +26,7 @@ public class AddEventActivity extends AppCompatActivity
 
     private static final String LOG_TAG = AddEventActivity.class.getSimpleName();
     public static final String CREATED_EVENT = "CREATED_EVENT";
+    public static final int TEXT_REQUEST = 1;
     private String actionKey;
 
     private EditText mEventName;
@@ -75,7 +76,7 @@ public class AddEventActivity extends AppCompatActivity
         // to create an action
         Intent intent = new Intent(this, AddActionActivity.class);
         // Once done, return to this page
-        startActivity(intent);
+        startActivityForResult(intent, TEXT_REQUEST);
 
         // When ended, Updated the Spinner so that
         // the newly created action is shown in the list

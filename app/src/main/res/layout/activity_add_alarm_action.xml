@@ -76,58 +76,72 @@
         app:layout_constraintTop_toBottomOf="@+id/stopCreateActionButton" />
 
     <TextView
-        android:id="@+id/waterAmountSliderTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="90dp"
-        android:text="@string/water_amount"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameTitle" />
+            android:id="@+id/AlarmSoundText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="90dp"
+            android:text="@string/Sound"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nameTitle"/>
+
+    <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="195dp"
+            android:layout_height="39dp"
+            android:addStatesFromChildren="false"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/AlarmSoundText" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="32dp" android:layout_marginStart="32dp"/>
+
+    <TextView
+            android:id="@+id/VolumeSliderTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="90dp"
+            android:text="@string/Volume"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/AlarmSoundText"/>
 
     <SeekBar
-        android:id="@+id/waterAmountSeekBar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/waterAmountSliderTitle" />
+            android:id="@+id/VolumeLevelSeekBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/VolumeSliderTitle"/>
 
 
     <TextView
-        android:id="@+id/groundAmountSliderTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="70dp"
-        android:text="@string/ground_amount"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/waterAmountSliderTitle" />
-
-    <SeekBar
-        android:id="@+id/groundAmountSeekBar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/groundAmountSliderTitle" />
+            android:id="@+id/VibrateTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="70dp"
+            android:text="@string/Vibrate"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/VolumeSliderTitle"/>
+    <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/vibrateSwitch" tools:layout_editor_absoluteY="444dp"
+            app:layout_constraintStart_toEndOf="@+id/VibrateTitle" android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -76,7 +76,7 @@
         app:layout_constraintTop_toBottomOf="@+id/stopCreateActionButton" />
 
     <TextView
-        android:id="@+id/waterAmountSliderTitle"
+        android:id="@+id/VolumeSliderTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -89,7 +89,7 @@
         app:layout_constraintTop_toBottomOf="@+id/nameTitle" />
 
     <SeekBar
-        android:id="@+id/waterAmountSeekBar"
+        android:id="@+id/VolumeLevelSeekBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -103,7 +103,7 @@
 
 
     <TextView
-        android:id="@+id/groundAmountSliderTitle"
+        android:id="@+id/VibrateTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

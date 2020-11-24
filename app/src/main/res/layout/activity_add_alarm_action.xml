@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddCoffeeActionActivity">
+    tools:context=".AddAlarmActionActivity">
 
     <ImageButton
         android:id="@+id/stopCreateActionButton"
@@ -89,7 +89,7 @@
             app:layout_constraintTop_toBottomOf="@+id/nameTitle"/>
 
     <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/AlarmSoundSpinner"
             android:layout_width="195dp"
             android:layout_height="39dp"
             android:addStatesFromChildren="false"

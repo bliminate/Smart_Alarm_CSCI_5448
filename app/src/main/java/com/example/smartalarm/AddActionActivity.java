@@ -20,6 +20,7 @@ public class AddActionActivity extends AppCompatActivity {
 
         // TODO: Add Existing Actions and its Activity
         mActionDict.put("Coffee Action", new AddCoffeeActionActivity());
+        mActionDict.put("Alarm Action", new AddAlarmActionActivity());
 
         // Put initial data into the word list.
         // Create recycler view.

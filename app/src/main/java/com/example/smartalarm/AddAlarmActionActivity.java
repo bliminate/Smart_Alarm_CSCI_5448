@@ -59,5 +59,5 @@ public class AddAlarmActionActivity extends AppCompatActivity
    private SeekBar mVolume;
    private EditText mName;
    private Spinner mAlarmSound;
-   private ToggleButton mVibrate;
+   private Switch mVibrate;
 }

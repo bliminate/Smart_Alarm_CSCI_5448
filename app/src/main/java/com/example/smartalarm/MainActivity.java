@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
       mEventRecyclerView.setLayoutManager(new LinearLayoutManager(this));
    };
 
-
    public void createAction(View view) {
       Log.d(LOG_TAG, "Create Action Button clicked!");
       Intent intent = new Intent(this, AddActionActivity.class);

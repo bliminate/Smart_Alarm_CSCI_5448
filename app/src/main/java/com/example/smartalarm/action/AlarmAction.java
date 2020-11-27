@@ -68,8 +68,8 @@ public class AlarmAction extends Action {
       }
    }
 
-   public void toggleVibrate(){
-      vibrate = !vibrate;
+   public void toggleVibrate(boolean v){
+      vibrate = v;
    }
 
    public Boolean getVibrate(){
@@ -84,10 +84,20 @@ public class AlarmAction extends Action {
       return soundResource;
    }
 
+   public void setVolume(Integer v){
+      sound.setVolume(v);
+      volume = v;
+   }
+
+   public Integer getVolume(){
+      return volume;
+   }
+
    private String name;
    private Boolean vibrate;
    private Integer soundResource;
    private ExecutorService threads;
    private volatile iVibrate vib;
    private volatile iSound sound;
+   private Integer volume;
 }

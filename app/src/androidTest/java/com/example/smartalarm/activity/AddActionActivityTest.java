@@ -45,12 +45,22 @@ public class AddActionActivityTest {
     }
 
     @Test
-    public void testActionClick() {
+    public void testCoffeeActionClick() {
         onView(withId(R.id.recyclerview)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(0, click()));
+                RecyclerViewActions.actionOnItemAtPosition(1, click()));
 
         intended(allOf(
                 hasComponent(hasShortClassName(".AddCoffeeActionActivity")),
                 toPackage(PACKAGE_NAME)));
+    }
+
+    @Test
+    public void testAlarmActionClick() {
+        onView(withId(R.id.recyclerview)).perform(
+              RecyclerViewActions.actionOnItemAtPosition(0, click()));
+
+        intended(allOf(
+              hasComponent(hasShortClassName(".AddAlarmActionActivity")),
+              toPackage(PACKAGE_NAME)));
     }
 }

@@ -1,5 +1,7 @@
 package com.example.smartalarm.action;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 import com.example.smartalarm.deviceAction.iSound;
 import com.example.smartalarm.deviceAction.iVibrate;
 
@@ -7,6 +9,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+@Entity(tableName="alarm_action")
 public class AlarmAction extends Action {
    public AlarmAction(iVibrate v, iSound s){
       super();
@@ -93,6 +96,8 @@ public class AlarmAction extends Action {
       return volume;
    }
 
+   @PrimaryKey(autoGenerate = true)
+   private int id;
    private String name;
    private Boolean vibrate;
    private Integer soundResource;

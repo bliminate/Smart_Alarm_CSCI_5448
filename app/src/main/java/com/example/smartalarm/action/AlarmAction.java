@@ -2,6 +2,7 @@ package com.example.smartalarm.action;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import com.example.smartalarm.deviceAction.iSound;
 import com.example.smartalarm.deviceAction.iVibrate;
@@ -12,6 +13,16 @@ import java.util.concurrent.Executors;
 
 @Entity(tableName="alarm_action")
 public class AlarmAction extends Action {
+   public AlarmAction(int ID, String name, Boolean vibrate, Integer soundResource,
+                      Integer volume, Integer vibrateResource){
+      this.ID = ID;
+      this.name = name;
+      this.vibrate = vibrate;
+      this.soundResource = soundResource;
+      this.volume = volume;
+      this.vibrateResource = vibrateResource;
+   }
+
    // We dependency inject an instance of the sound and vibrate
    // system utilities.
    public AlarmAction(iVibrate v, iSound s){
@@ -90,6 +101,14 @@ public class AlarmAction extends Action {
       return soundResource;
    }
 
+   public int getID(){
+      return ID;
+   }
+
+   public Integer getVibrateResource(){
+      return vibrateResource;
+   }
+
    public void setVolume(Integer v){
       sound.setVolume(v);
       volume = v;
@@ -100,7 +119,7 @@ public class AlarmAction extends Action {
    }
 
    @PrimaryKey(autoGenerate = true)
-   private int id;
+   private int ID;
    @ColumnInfo(name = "Name")
    private String name;
    @ColumnInfo(name = "Vibrate")
@@ -109,7 +128,12 @@ public class AlarmAction extends Action {
    private Integer soundResource;
    @ColumnInfo(name = "VolumeLevel")
    private Integer volume;
+   @ColumnInfo(name = "VibrateResourceID")
+   private Integer vibrateResource;
+   @Ignore
    private ExecutorService threads;
+   @Ignore
    private volatile iVibrate vib;
+   @Ignore
    private volatile iSound sound;
 }

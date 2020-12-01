@@ -49,6 +49,11 @@ public class ActionListAdapter extends
         this.mActions = actions;
     }
 
+    public void setActions(HashMap<String, AppCompatActivity> actions){
+        mActions = actions;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public ActionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

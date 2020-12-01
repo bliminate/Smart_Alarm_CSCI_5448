@@ -5,9 +5,11 @@ import android.view.View;
 import android.widget.*;
 import androidx.annotation.RawRes;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import com.example.smartalarm.action.AlarmAction;
 import com.example.smartalarm.deviceAction.Sound;
 import com.example.smartalarm.deviceAction.Vibrate;
+import com.example.smartalarm.viewModels.AlarmActionViewModel;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -26,6 +28,7 @@ public class AddAlarmActionActivity extends AppCompatActivity
       mVolume = findViewById(R.id.VolumeLevelSeekBar);
       mAlarmSound = findViewById(R.id.AlarmSoundSpinner);
       mVibrate = findViewById(R.id.vibrateSwitch);
+      mAAVM = new ViewModelProvider(this).get(AlarmActionViewModel.class);
 
       if(mAlarmSound != null){
          mAlarmSound.setOnItemSelectedListener(this);
@@ -80,4 +83,5 @@ public class AddAlarmActionActivity extends AppCompatActivity
    private Switch mVibrate;
    private Map<String, Integer> mRawResourceMap;
    private AlarmAction mAlarm;
+   private AlarmActionViewModel mAAVM;
 }

@@ -1,5 +1,6 @@
 package com.example.smartalarm.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -18,7 +19,7 @@ public interface AlarmDao {
    void updateAlarm(AlarmAction alarm);
 
    @Query("SELECT Name, id FROM alarm_action")
-   List<NameIdPair> getAllNames();
+   LiveData<List<NameIdPair>> getAllNames();
 
    @Query("SELECT * FROM alarm_action WHERE id = :ID")
    AlarmAction getAlarmAction(int ID);

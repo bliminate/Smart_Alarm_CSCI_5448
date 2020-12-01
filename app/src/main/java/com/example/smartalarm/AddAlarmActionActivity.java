@@ -73,7 +73,7 @@ public class AddAlarmActionActivity extends AppCompatActivity
       mAlarm.toggleVibrate(mVibrate.isChecked());
       mAlarm.setVolume(volume);
       // TODO: Store in db
-
+      mAAVM.insert(mAlarm);
       finish();
    }
 

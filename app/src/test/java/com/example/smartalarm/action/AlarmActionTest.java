@@ -12,7 +12,7 @@ class AlarmActionTest {
       testVibrate v = new testVibrate();
       testSound s = new testSound();
       AlarmAction aa = new AlarmAction(v, s);
-      aa.toggleVibrate();
+      aa.toggleVibrate(true);
       aa.setSoundResource(1);
       aa.executeAction();
       sleep(1000);
@@ -26,7 +26,7 @@ class AlarmActionTest {
       testVibrate v = new testVibrate();
       testSound s = new testSound();
       AlarmAction aa = new AlarmAction(v, s);
-      aa.toggleVibrate();
+      aa.toggleVibrate(true);
       aa.executeAction();
       sleep(1000);
       aa.stopAction();
@@ -52,9 +52,9 @@ class AlarmActionTest {
       testVibrate v = new testVibrate();
       testSound s = new testSound();
       AlarmAction aa = new AlarmAction(v, s);
-      aa.toggleVibrate();
-      aa.toggleVibrate();
-      aa.toggleVibrate();
+      aa.toggleVibrate(true);
+      aa.toggleVibrate(false);
+      aa.toggleVibrate(true);
       aa.executeAction();
       sleep(1000);
       aa.stopAction();

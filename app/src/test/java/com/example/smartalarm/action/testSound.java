@@ -12,5 +12,10 @@ public class testSound implements iSound {
       calledSound = true;
    }
 
+   @Override
+   public void setVolume(Integer vol) {
+
+   }
+
    public Boolean calledSound;
 }

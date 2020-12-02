@@ -1,11 +1,16 @@
 package com.example.smartalarm.event;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 import com.example.smartalarm.observer.iSubject;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Calendar;
 
+@Entity(tableName = "Event")
 public abstract class Event implements iSubject {
    public Event(){
       super();
@@ -28,6 +33,8 @@ public abstract class Event implements iSubject {
       return name;
    }
 
+   public int getID(){ return ID; }
+
    @Override
    public void addObserver(PropertyChangeListener observer){
       subject.addPropertyChangeListener(observer);
@@ -48,7 +55,14 @@ public abstract class Event implements iSubject {
       subject.firePropertyChange("action", oldObj, newObj);
    }
 
+   @PrimaryKey(autoGenerate = true)
+   private int ID;
+   @Ignore
    private PropertyChangeSupport subject;
+   @ColumnInfo(name = "Name")
    private String name;
-   private String currentState;
+   @ColumnInfo(name = "State")
+   protected String currentState;
+   @ColumnInfo(name = "Delay")
+   protected Calendar delay;
 }

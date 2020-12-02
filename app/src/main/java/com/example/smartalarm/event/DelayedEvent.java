@@ -50,7 +50,4 @@ public class DelayedEvent extends Event implements PropertyChangeListener {
          notifyObservers(oldState, currentState);
       }
    }
-
-   private String currentState;
-   private Calendar delay;
 }

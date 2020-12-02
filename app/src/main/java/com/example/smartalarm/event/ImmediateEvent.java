@@ -31,8 +31,4 @@ public class ImmediateEvent extends Event {
    public Calendar getDelay() {
       return delay;
    }
-
-   private String currentState;
-   private Calendar delay;
-
 }

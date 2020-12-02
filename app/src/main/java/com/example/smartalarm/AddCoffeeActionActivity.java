@@ -1,12 +1,13 @@
 package com.example.smartalarm;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.SeekBar;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.smartalarm.action.CoffeeAction;
 
 public class AddCoffeeActionActivity extends AppCompatActivity {
     private EditText mName;
@@ -29,9 +30,14 @@ public class AddCoffeeActionActivity extends AppCompatActivity {
         int waterAmount = mWaterAmount.getProgress();
         int groundAmount = mGroundAmount.getProgress();
 
-        CoffeeAction coffeeAction = new CoffeeAction(name, waterAmount, groundAmount);
+        CoffeeAction coffeeAction = new CoffeeAction();
+        coffeeAction.setUrl("http://10.0.2.2:8000");
+        coffeeAction.setName(name);
+        coffeeAction.setWater(waterAmount);
+        coffeeAction.setGround(groundAmount);
 
         // TODO: Store in db
+        coffeeAction.executeAction();
 
         finish();
     }

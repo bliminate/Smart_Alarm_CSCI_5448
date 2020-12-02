@@ -68,7 +68,7 @@ public class AddAlarmActionActivity extends AppCompatActivity
    }
 
    public void saveAction(View view) {
-      String name = mName.getText().toString();
+      mAlarm.setName(mName.getText().toString());
       int volume = mVolume.getProgress();
       mAlarm.toggleVibrate(mVibrate.isChecked());
       mAlarm.setVolume(volume);

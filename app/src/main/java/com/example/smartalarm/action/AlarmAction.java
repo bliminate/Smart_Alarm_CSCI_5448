@@ -109,6 +109,14 @@ public class AlarmAction extends Action {
       return vibrateResource;
    }
 
+   public void setSoundResourceManager(iSound s){
+      sound = s;
+   }
+
+   public void setVibrateResourceManager(iVibrate v){
+      vib = v;
+   }
+
    public void setVolume(Integer v){
       sound.setVolume(v);
       volume = v;

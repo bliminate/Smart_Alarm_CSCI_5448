@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import com.example.smartalarm.action.AlarmAction;
 import com.example.smartalarm.dataStructures.NameIdPair;
 import com.example.smartalarm.database.AlarmRepository;
+import com.example.smartalarm.database.iGetAlarmAction;
 
 import java.util.List;
 
@@ -23,7 +24,15 @@ public class AlarmActionViewModel extends AndroidViewModel {
       repo.insert(alarm);
    }
 
+   public void update(AlarmAction alarm){
+      repo.update(alarm);
+   }
+
    public LiveData<List<NameIdPair>> getAlarmNames(){
       return alarmNames;
+   }
+
+   public void getAlarm(int id, iGetAlarmAction resp){
+      repo.getAlarm(id, resp);
    }
 }

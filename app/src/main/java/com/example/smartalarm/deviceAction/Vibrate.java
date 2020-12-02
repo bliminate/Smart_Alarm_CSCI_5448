@@ -9,9 +9,16 @@ import androidx.annotation.RequiresApi;
 import static android.content.Context.VIBRATOR_SERVICE;
 
 public class Vibrate implements iVibrate{
-   public Vibrate(Context ctx){
+   private Vibrate(Context ctx){
       super();
       context = ctx;
+   }
+
+   public static Vibrate getInstance(Context ctx){
+      if(instance == null){
+         instance = new Vibrate(ctx);
+      }
+      return instance;
    }
 
    @RequiresApi(api = Build.VERSION_CODES.O)
@@ -22,4 +29,5 @@ public class Vibrate implements iVibrate{
    }
 
    private Context context;
+   private static Vibrate instance;
 }

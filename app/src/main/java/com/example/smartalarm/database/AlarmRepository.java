@@ -1,6 +1,8 @@
 package com.example.smartalarm.database;
 
 import android.app.Application;
+import android.os.Handler;
+import android.os.Looper;
 import androidx.lifecycle.LiveData;
 import com.example.smartalarm.action.AlarmAction;
 import com.example.smartalarm.dao.AlarmDao;
@@ -21,6 +23,21 @@ public class AlarmRepository {
 
    public LiveData<List<NameIdPair>> getAlarmNames(){
       return mAlarmNames;
+   }
+
+   public void getAlarm(int id, iGetAlarmAction resp){
+      new AsyncTask().execute(new Runnable() {
+         @Override
+         public void run() {
+            AlarmAction alarm = AD.getAlarmAction(id);
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+               @Override
+               public void run() {
+                  resp.response(alarm);
+               }
+            });
+         }
+      });
    }
 
    public void insert(AlarmAction alarm){

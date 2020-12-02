@@ -4,10 +4,17 @@ import android.content.Context;
 import android.media.MediaPlayer;
 
 public class Sound implements iSound {
-   public Sound(Context ctx){
+   private Sound(Context ctx){
       super();
       context = ctx;
       volume = 0;
+   }
+
+   public static Sound getInstance(Context ctx){
+      if(instance == null){
+         instance = new Sound(ctx);
+      }
+      return instance;
    }
 
    @Override
@@ -28,4 +35,5 @@ public class Sound implements iSound {
    private float volume;
    private Context context;
    private final Integer MAX_VOLUME = 100;
+   private static Sound instance;
 }

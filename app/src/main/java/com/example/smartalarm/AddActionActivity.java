@@ -14,11 +14,11 @@ import java.util.List;
 
 public class AddActionActivity extends AppCompatActivity {
     private HashMap<String, AppCompatActivity> mActionDict =  new HashMap<>();
-    private HashMap<String, AppCompatActivity> mExistingActionDict =  new HashMap<>();
+    private HashMap<NameIdPair, AppCompatActivity> mExistingActionDict =  new HashMap<>();
     private RecyclerView mRecyclerView;
     private RecyclerView mActionRecyclerView;
     private ActionListAdapter mAdapter;
-    private ActionListAdapter mActionAdapter;
+    private AlarmListAdapter mActionAdapter;
     private AlarmActionViewModel mAAVM;
 
     @Override
@@ -41,7 +41,7 @@ public class AddActionActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         mActionRecyclerView = findViewById(R.id.actionrecyclerview);
-        mActionAdapter = new ActionListAdapter(this, mExistingActionDict);
+        mActionAdapter = new AlarmListAdapter(this, mExistingActionDict);
         mActionRecyclerView.setAdapter(mActionAdapter);
         mActionRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -51,7 +51,7 @@ public class AddActionActivity extends AppCompatActivity {
             public void onChanged(List<NameIdPair> nameIdPairs) {
                 mExistingActionDict = new HashMap<>();
                 for(NameIdPair nid : nameIdPairs){
-                    mExistingActionDict.put(nid.Name, new AddAlarmActionActivity());
+                    mExistingActionDict.put(nid, new ViewAlarmActionActivity());
                 }
                 mActionAdapter.setActions(mExistingActionDict);
             }

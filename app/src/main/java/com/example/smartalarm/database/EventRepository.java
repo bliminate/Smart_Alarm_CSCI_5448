@@ -24,7 +24,7 @@ public class EventRepository {
       mEvents = getAllEvents();
    }
 
-   public LiveData<List<Event>> getAlarmNames(){
+   public LiveData<List<Event>> getEvents(){
       return mEvents;
    }
 

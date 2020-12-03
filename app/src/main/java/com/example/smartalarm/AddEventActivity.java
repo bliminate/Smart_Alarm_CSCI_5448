@@ -8,10 +8,12 @@ import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 import com.example.smartalarm.event.DelayedEvent;
 import com.example.smartalarm.event.Event;
 import com.example.smartalarm.fragment.DatePickerFragment;
 import com.example.smartalarm.fragment.TimePickerFragment;
+import com.example.smartalarm.viewModels.EventViewModel;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -25,6 +27,7 @@ public class AddEventActivity extends AppCompatActivity
     private static final String LOG_TAG = AddEventActivity.class.getSimpleName();
     public static final String CREATED_EVENT = "CREATED_EVENT";
     public static final int TEXT_REQUEST = 1;
+    private EventViewModel mEVM;
     private String actionKey;
 
     private EditText mEventName;
@@ -43,6 +46,7 @@ public class AddEventActivity extends AppCompatActivity
         mEventName = findViewById(R.id.editEventName);
         mEventDate = findViewById(R.id.editEventDate);
         mEventTime = findViewById(R.id.editEventTime);
+        mEVM = new ViewModelProvider(this).get(EventViewModel.class);
 
         // Set Spinner
         mSpinner = (Spinner) findViewById(R.id.spinner);
@@ -62,6 +66,7 @@ public class AddEventActivity extends AppCompatActivity
         Event event = new DelayedEvent();
         event.setDelay(calendar);
         event.setName(eventName);
+        mEVM.insert(event);
 
         // Set info as a single Intent object
         Intent replyIntent = new Intent();
@@ -109,13 +114,13 @@ public class AddEventActivity extends AppCompatActivity
     }
 
     public void showDatePickerDialog(View view) {
-        DialogFragment newFragment = new DatePickerFragment();
+        DialogFragment newFragment = new DatePickerFragment(this);
         newFragment.show(getSupportFragmentManager(), "datePicker");
 
     }
 
     public void showTimePickerDialog(View view) {
-        DialogFragment newFragment = new TimePickerFragment();
+        DialogFragment newFragment = new TimePickerFragment(this);
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 

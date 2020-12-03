@@ -18,6 +18,7 @@
         <activity android:name=".AddCoffeeActionActivity"></activity>
         <activity android:name=".AddAlarmActionActivity"></activity>
         <activity android:name=".ViewAlarmActionActivity"></activity>
+        <activity android:name=".ViewEventActivity"></activity>
         <activity android:name=".AddActionActivity" />
         <activity android:name=".AddEventActivity" />
         <activity android:name=".MainActivity">

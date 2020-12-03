@@ -26,17 +26,9 @@ public class AlarmRepository {
    }
 
    public void getAlarm(int id, iGetAlarmAction resp){
-      new AsyncTask().execute(new Runnable() {
-         @Override
-         public void run() {
-            AlarmAction alarm = AD.getAlarmAction(id);
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-               @Override
-               public void run() {
-                  resp.response(alarm);
-               }
-            });
-         }
+      new AsyncTask().execute(() -> {
+         AlarmAction alarm = AD.getAlarmAction(id);
+         new Handler(Looper.getMainLooper()).post(() -> resp.response(alarm));
       });
    }
 

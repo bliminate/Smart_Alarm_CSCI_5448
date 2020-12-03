@@ -6,7 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 import com.example.smartalarm.action.AlarmAction;
-import com.example.smartalarm.dataStructures.NameIdPair;
+import com.example.smartalarm.event.Event;
 import com.example.smartalarm.event.ImmediateEvent;
 
 import java.util.List;
@@ -17,10 +17,10 @@ public interface ImmediateEventDao {
    void insert(ImmediateEvent event);
 
    @Update
-   void updateAlarm(ImmediateEvent event);
+   void update(ImmediateEvent event);
 
-   @Query("SELECT Name, id FROM immediate_event")
-   LiveData<List<NameIdPair>> getAllNames();
+   @Query("SELECT * FROM immediate_event")
+   LiveData<List<Event>> getAllEvents();
 
    @Query("SELECT * FROM immediate_event WHERE id = :ID")
    AlarmAction getImmediateEvent(int ID);

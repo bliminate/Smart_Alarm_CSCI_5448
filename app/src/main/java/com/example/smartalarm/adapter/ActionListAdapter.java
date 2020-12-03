@@ -1,4 +1,4 @@
-package com.example.smartalarm;
+package com.example.smartalarm.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+import com.example.smartalarm.R;
 
 import java.util.HashMap;
 

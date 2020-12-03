@@ -6,6 +6,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.example.smartalarm.adapter.ActionListAdapter;
+import com.example.smartalarm.adapter.AlarmListAdapter;
 import com.example.smartalarm.dataStructures.NameIdPair;
 import com.example.smartalarm.viewModels.AlarmActionViewModel;
 

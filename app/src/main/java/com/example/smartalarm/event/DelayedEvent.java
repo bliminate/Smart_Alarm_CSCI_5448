@@ -10,7 +10,7 @@ import java.util.Calendar;
 
 @Entity(tableName = "delayed_event")
 public class DelayedEvent extends Event implements PropertyChangeListener {
-   DelayedEvent(){
+   public DelayedEvent(){
       super();
       currentState = "deactivated";
    }

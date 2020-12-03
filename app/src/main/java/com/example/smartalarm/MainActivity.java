@@ -9,12 +9,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.smartalarm.adapter.AlarmListAdapter;
-import com.example.smartalarm.dataStructures.NameIdPair;
+import com.example.smartalarm.adapter.EventAdapter;
+import com.example.smartalarm.event.Event;
 import com.example.smartalarm.viewModels.EventViewModel;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
    public static final int TEXT_REQUEST = 1;
    private RecyclerView mEventRecyclerView;
    private LiveData<List<Event>> events;
-   private ConcreteEventListAdapter mEventListAdapter;
    private EventViewModel mEVM;
    private HashMap<Event, AppCompatActivity> mEventDict =  new HashMap<>();
    private EventAdapter mEventAdapter;
@@ -37,9 +34,9 @@ public class MainActivity extends AppCompatActivity {
       mEVM.getEvents().observe(this, Events -> {
          mEventDict = new HashMap<>();
          for(Event e : Events){
-            mEventDict.put(e.getName(), new ViewAlarmActionActivity());
+            mEventDict.put(e, new ViewEventActivity());
          }
-         mEventAdapter.setActions(mEventDict);
+         mEventAdapter.setEvents(mEventDict);
       });
 
       setEventRecyclerView();
@@ -50,9 +47,9 @@ public class MainActivity extends AppCompatActivity {
       // Create recycler view.
       mEventRecyclerView = findViewById(R.id.eventRecyclerView);
       // Create an adapter and supply the data to be displayed.
-      mEventListAdapter = new ConcreteEventListAdapter(this, events);
+      mEventAdapter = new EventAdapter(this, mEventDict);
       // Connect the adapter with the recycler view.
-      mEventRecyclerView.setAdapter(mEventListAdapter);
+      mEventRecyclerView.setAdapter(mEventAdapter);
       // Give the recycler view a default layout manager.
       mEventRecyclerView.setLayoutManager(new LinearLayoutManager(this));
    };

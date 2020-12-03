@@ -4,9 +4,10 @@ import com.example.smartalarm.observer.iSubject;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.Serializable;
 import java.util.Calendar;
 
-public abstract class Event implements iSubject {
+public abstract class Event implements iSubject, Serializable {
    public Event(){
       super();
       subject = new PropertyChangeSupport(this);

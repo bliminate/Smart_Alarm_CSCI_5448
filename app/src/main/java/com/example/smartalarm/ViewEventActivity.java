@@ -8,19 +8,17 @@ import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
-import com.example.smartalarm.event.DelayedEvent;
 import com.example.smartalarm.event.Event;
 
-import java.io.Serializable;
 import java.util.Calendar;
 
 
-public class AddEventActivity extends AppCompatActivity
+public class ViewEventActivity extends AppCompatActivity
     implements DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener,
         AdapterView.OnItemSelectedListener {
 
-    private static final String LOG_TAG = AddEventActivity.class.getSimpleName();
+    private static final String LOG_TAG = ViewEventActivity.class.getSimpleName();
     public static final String CREATED_EVENT = "CREATED_EVENT";
     public static final int TEXT_REQUEST = 1;
     private String actionKey;
@@ -30,6 +28,7 @@ public class AddEventActivity extends AppCompatActivity
     private EditText mEventTime;
     private Spinner mSpinner;
     private Calendar calendar;
+    private Event mEvent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,15 +54,12 @@ public class AddEventActivity extends AppCompatActivity
         // Extract All information from the view
         String eventName = mEventName.getText().toString();
 
-        //TODO: logic to create delayed vs immediate event
         // Create an event
-        Event event = new DelayedEvent();
-        event.setDelay(calendar);
-        event.setName(eventName);
+        Event event = new Event(eventName, calendar, actionKey);
 
         // Set info as a single Intent object
         Intent replyIntent = new Intent();
-        replyIntent.putExtra(CREATED_EVENT, (Serializable) event);
+        replyIntent.putExtra(CREATED_EVENT, event);
 
         // Return the intent back to the original activity (MainActivity)
         setResult(RESULT_OK, replyIntent);

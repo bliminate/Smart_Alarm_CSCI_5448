@@ -8,7 +8,7 @@ import java.util.Calendar;
 
 @Entity(tableName = "immediate_event")
 public class ImmediateEvent extends Event {
-   ImmediateEvent(){
+   public ImmediateEvent(){
       super();
       currentState = "deactivated";
    }

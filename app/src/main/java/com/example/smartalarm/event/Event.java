@@ -30,8 +30,6 @@ public abstract class Event implements iSubject, Serializable {
 
    public abstract int getID();
 
-   public abstract String getCurrentState();
-
    public abstract void setCurrentState(String s);
 
    @Override

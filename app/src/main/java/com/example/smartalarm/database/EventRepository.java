@@ -1,6 +1,8 @@
 package com.example.smartalarm.database;
 
 import android.app.Application;
+import android.os.Build;
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import com.example.smartalarm.dao.DelayedEventDao;
@@ -11,12 +13,14 @@ import com.example.smartalarm.event.ImmediateEvent;
 
 import java.util.List;
 import java.util.concurrent.Executor;
+import java.util.stream.Collectors;
 
 public class EventRepository {
-   private DelayedEventDao DED;
-   private ImmediateEventDao IED;
-   private LiveData<List<Event>> mEvents;
+   private final DelayedEventDao DED;
+   private final ImmediateEventDao IED;
+   private final LiveData<List<Event>> mEvents;
 
+   @RequiresApi(api = Build.VERSION_CODES.N)
    public EventRepository(Application app){
       SmartAlarmDatabase db = SmartAlarmDatabase.getDatabase(app);
       DED = db.delayedEventDao();
@@ -48,12 +52,13 @@ public class EventRepository {
 
    //Mediator Live data:
    // https://developer.android.com/reference/androidx/lifecycle/MediatorLiveData
+   @RequiresApi(api = Build.VERSION_CODES.N)
    private LiveData<List<Event>> getAllEvents(){
       MediatorLiveData<List<Event>> ret = new MediatorLiveData<>();
-      LiveData<List<Event>> immediate = (LiveData<List<Event>>) IED.getAllEvents();
-      LiveData<List<Event>> delayed = DED.getAllEvents();
-      ret.addSource(immediate, value -> ret.setValue(value));
-      ret.addSource(delayed, value -> ret.setValue(value));
+      LiveData<List<ImmediateEvent>> immediate = IED.getAllEvents();
+      LiveData<List<DelayedEvent>> delayed = DED.getAllEvents();
+      ret.addSource(immediate, value -> ret.setValue(value.stream().map(x -> (Event)x).collect(Collectors.toList())));
+      ret.addSource(delayed, value -> ret.setValue(value.stream().map(x -> (Event)x).collect(Collectors.toList())));
       return ret;
    }
 

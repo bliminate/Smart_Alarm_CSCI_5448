@@ -2,7 +2,6 @@ package com.example.smartalarm;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,7 +11,6 @@ import com.example.smartalarm.dataStructures.NameIdPair;
 import com.example.smartalarm.viewModels.AlarmActionViewModel;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class AddActionActivity extends AppCompatActivity {
     private HashMap<String, AppCompatActivity> mActionDict =  new HashMap<>();
@@ -48,15 +46,12 @@ public class AddActionActivity extends AppCompatActivity {
         mActionRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         mAAVM = new ViewModelProvider(this).get(AlarmActionViewModel.class);
-        mAAVM.getAlarmNames().observe(this, new Observer<List<NameIdPair>>() {
-            @Override
-            public void onChanged(List<NameIdPair> nameIdPairs) {
-                mExistingActionDict = new HashMap<>();
-                for(NameIdPair nid : nameIdPairs){
-                    mExistingActionDict.put(nid, new ViewAlarmActionActivity());
-                }
-                mActionAdapter.setActions(mExistingActionDict);
+        mAAVM.getAlarmNames().observe(this, nameIdPairs -> {
+            mExistingActionDict = new HashMap<>();
+            for(NameIdPair nid : nameIdPairs){
+                mExistingActionDict.put(nid, new ViewAlarmActionActivity());
             }
+            mActionAdapter.setActions(mExistingActionDict);
         });
     }
 

@@ -37,6 +37,9 @@ public class ImmediateEvent extends Event {
    }
 
    @Override
+   public String getCurrentState(){ return currentState; };
+
+   @Override
    public void setDelay(Calendar c) {
       delay = Calendar.getInstance();
    }

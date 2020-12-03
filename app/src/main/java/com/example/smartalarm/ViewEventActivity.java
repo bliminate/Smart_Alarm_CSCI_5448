@@ -8,11 +8,12 @@ import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 import com.example.smartalarm.event.Event;
 import com.example.smartalarm.fragment.DatePickerFragment;
 import com.example.smartalarm.fragment.TimePickerFragment;
+import com.example.smartalarm.viewModels.EventViewModel;
 
-import java.io.Serializable;
 import java.util.Calendar;
 
 
@@ -25,7 +26,7 @@ public class ViewEventActivity extends AppCompatActivity
     public static final String CREATED_EVENT = "CREATED_EVENT";
     public static final int TEXT_REQUEST = 1;
     private String actionKey;
-
+    private EventViewModel mEVM;
     private EditText mEventName;
     private EditText mEventDate;
     private EditText mEventTime;
@@ -43,6 +44,7 @@ public class ViewEventActivity extends AppCompatActivity
         mEventName = findViewById(R.id.editEventName);
         mEventDate = findViewById(R.id.editEventDate);
         mEventTime = findViewById(R.id.editEventTime);
+        mEVM = new ViewModelProvider(this).get(EventViewModel.class);
 
         // Set Spinner
         mSpinner = (Spinner) findViewById(R.id.spinner);
@@ -65,13 +67,13 @@ public class ViewEventActivity extends AppCompatActivity
         // Extract All information from the view
         String eventName = mEventName.getText().toString();
 
-
+        mEVM.update(mEvent);
         // Set info as a single Intent object
-        Intent replyIntent = new Intent();
-        replyIntent.putExtra(CREATED_EVENT, (Serializable) mEvent);
+        //Intent replyIntent = new Intent();
+        //replyIntent.putExtra(CREATED_EVENT, (Serializable) mEvent);
 
         // Return the intent back to the original activity (MainActivity)
-        setResult(RESULT_OK, replyIntent);
+        //setResult(RESULT_OK, replyIntent);
         finish();
     }
 
@@ -112,13 +114,13 @@ public class ViewEventActivity extends AppCompatActivity
     }
 
     public void showDatePickerDialog(View view) {
-        DialogFragment newFragment = new DatePickerFragment();
+        DialogFragment newFragment = new DatePickerFragment(this);
         newFragment.show(getSupportFragmentManager(), "datePicker");
 
     }
 
     public void showTimePickerDialog(View view) {
-        DialogFragment newFragment = new TimePickerFragment();
+        DialogFragment newFragment = new TimePickerFragment(this);
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
@@ -127,7 +129,8 @@ public class ViewEventActivity extends AppCompatActivity
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        mEventDate.setText("" + dayOfMonth + "/" + month + "/" + year);
+        mEventDate.setText("" + dayOfMonth + "/" + (month + 1) + "/" + year);
+        mEvent.setDelay(calendar);
     }
 
     @Override
@@ -135,6 +138,7 @@ public class ViewEventActivity extends AppCompatActivity
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         calendar.set(Calendar.MINUTE, minute);
         mEventTime.setText("" + hourOfDay + ":" + minute);
+        mEvent.setDelay(calendar);
     }
 
     @Override

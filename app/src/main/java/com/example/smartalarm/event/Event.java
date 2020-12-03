@@ -18,6 +18,8 @@ public abstract class Event implements iSubject, Serializable {
 
    public abstract void deactivateEvent();
 
+   public abstract String getCurrentState();
+
    public abstract void setDelay(Calendar c);
 
    public abstract Calendar getDelay();

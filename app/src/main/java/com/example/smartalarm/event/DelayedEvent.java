@@ -50,6 +50,9 @@ public class DelayedEvent extends Event implements PropertyChangeListener {
    }
 
    @Override
+   public String getCurrentState(){ return currentState; };
+
+   @Override
    public void setDelay(Calendar c) {
       delay = c;
    }

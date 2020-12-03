@@ -1,14 +1,15 @@
-package com.example.smartalarm;
+package com.example.smartalarm.fragment;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.widget.EditText;
 import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
+
+import com.example.smartalarm.AddEventActivity;
 
 import java.util.Calendar;
 

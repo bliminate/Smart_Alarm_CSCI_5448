@@ -1,6 +1,19 @@
-package com.example.smartalarm;
+package com.example.smartalarm.adapter;
 
-/*
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.smartalarm.R;
+import com.example.smartalarm.event.Event;
+
+import java.util.List;
+
 public class ConcreteEventListAdapter extends
         RecyclerView.Adapter<ConcreteEventListAdapter.ConcreteEventViewHolder> {
 
@@ -24,7 +37,9 @@ public class ConcreteEventListAdapter extends
             int itemPosition = getLayoutPosition();
 
             Event event = mEvents.get(itemPosition);
-            event.activated = !event.activated;
+            if (event.getCurrentState() == "activated") { event.deactivateEvent(); }
+            if (event.getCurrentState() == "deactivated") { event.activateEvent(); }
+
             mAdapter.notifyDataSetChanged();
             // TODO: Set On of Off
         }
@@ -48,7 +63,7 @@ public class ConcreteEventListAdapter extends
     @Override
     public void onBindViewHolder(@NonNull ConcreteEventViewHolder holder, int position) {
         // Retrieve the data for that position.
-        String mCurrent = mEvents.get(position).name;
+        String mCurrent = mEvents.get(position).getName();
         // Add the data to the view holder.
         holder.mItemView.setText(mCurrent);
     }
@@ -59,4 +74,3 @@ public class ConcreteEventListAdapter extends
     }
 }
 
- */

@@ -1,15 +1,32 @@
 package com.example.smartalarm.action;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.example.smartalarm.deviceAction.CoffeeMachine;
 
 import java.beans.PropertyChangeEvent;
 import java.io.Serializable;
 
+@Entity(tableName="coffee_action")
 public class CoffeeAction extends Action implements Serializable {
-   public CoffeeAction(){
+   public CoffeeAction(Integer ID, String name, Integer water, Integer ground){
       super();
-      coffeeMachine = new CoffeeMachine();
+      this.ID = ID;
+      this.name = name;
+      this.water = water;
+      this.ground = ground;
    }
+
+   public CoffeeAction(String url) {
+      super();
+      name = "";
+      water = 0;
+      ground = 0;
+   }
+
 
    @Override
    public void executeAction() {
@@ -20,6 +37,11 @@ public class CoffeeAction extends Action implements Serializable {
    @Override
    public void stopAction() {
    }
+
+   public Integer getID(){
+      return ID;
+   }
+
 
    @Override
    public void setName(String s) {
@@ -38,10 +60,6 @@ public class CoffeeAction extends Action implements Serializable {
       }
    }
 
-   public CoffeeMachine getCoffeeMachine() {
-      return coffeeMachine;
-   }
-
    public void setUrl(String url) {
       this.url = url;
    }
@@ -50,26 +68,34 @@ public class CoffeeAction extends Action implements Serializable {
       return url;
    }
 
-
-   public void setWater(int water){
+   public void setWater(Integer water){
       this.water = water;
    }
 
-   public int getWater(){
+   public Integer getWater(){
       return water;
    }
 
-   public void setGround(int ground){
+   public void setGround(Integer ground){
       this.ground = ground;
    }
 
-   public int getGround(){
+   public Integer getGround(){
       return ground;
    }
 
-   private int water;
-   private int ground;
-   private String url;
+   @PrimaryKey(autoGenerate = true)
+   private Integer ID;
+
+   @ColumnInfo(name = "Name")
    private String name;
-   private CoffeeMachine coffeeMachine;
+
+   @ColumnInfo(name = "Water")
+   private Integer water;
+
+   @ColumnInfo(name = "Ground")
+   private Integer ground;
+
+   @Ignore
+   private String url;
 }

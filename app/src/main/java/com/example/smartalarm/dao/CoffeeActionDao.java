@@ -5,25 +5,26 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
-import com.example.smartalarm.action.AlarmAction;
+
+import com.example.smartalarm.action.CoffeeAction;
 import com.example.smartalarm.dataStructures.NameIdPair;
 
 import java.util.List;
 
 @Dao
-public interface AlarmDao {
+public interface CoffeeActionDao {
    @Insert
-   void insert(AlarmAction alarm);
+   void insert(CoffeeAction alarm);
 
    @Update
-   void update(AlarmAction alarm);
+   void update(CoffeeAction alarm);
 
-   @Query("SELECT Name, id FROM alarm_action")
+   @Query("SELECT Name, id FROM coffee_action")
    LiveData<List<NameIdPair>> getAllNames();
 
    @Query("SELECT * FROM alarm_action")
-   LiveData<List<AlarmAction>> getAllActions();
+   LiveData<List<CoffeeAction>> getAllActions();
 
-   @Query("SELECT * FROM alarm_action WHERE id = :ID")
-   AlarmAction getAlarmAction(int ID);
+   @Query("SELECT * FROM coffee_action WHERE id = :ID")
+   CoffeeAction getCoffeeAction(int ID);
 }

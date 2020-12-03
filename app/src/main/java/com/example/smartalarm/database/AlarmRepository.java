@@ -25,7 +25,7 @@ public class AlarmRepository {
       return mAlarmNames;
    }
 
-   public void getAlarm(int id, iGetAlarmAction resp){
+   public void getAlarm(int id, iGetAction resp){
       new AsyncTask().execute(() -> {
          AlarmAction alarm = AD.getAlarmAction(id);
          new Handler(Looper.getMainLooper()).post(() -> resp.response(alarm));
@@ -42,7 +42,7 @@ public class AlarmRepository {
    public void update(AlarmAction alarm){
       new AsyncTask().execute(new Runnable(){
          @Override
-         public void run(){AD.updateAlarm(alarm);}
+         public void run(){AD.update(alarm);}
       });
    }
 

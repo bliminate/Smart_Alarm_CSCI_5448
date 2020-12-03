@@ -1,12 +1,14 @@
 package com.example.smartalarm.viewModels;
 
 import android.app.Application;
+
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+
 import com.example.smartalarm.action.AlarmAction;
 import com.example.smartalarm.dataStructures.NameIdPair;
 import com.example.smartalarm.database.AlarmRepository;
-import com.example.smartalarm.database.iGetAlarmAction;
+import com.example.smartalarm.database.iGetAction;
 
 import java.util.List;
 
@@ -32,7 +34,7 @@ public class AlarmActionViewModel extends AndroidViewModel {
       return alarmNames;
    }
 
-   public void getAlarm(int id, iGetAlarmAction resp){
+   public void getAlarm(int id, iGetAction resp){
       repo.getAlarm(id, resp);
    }
 }

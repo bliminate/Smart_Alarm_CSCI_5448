@@ -5,9 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
-import com.example.smartalarm.action.AlarmAction;
 import com.example.smartalarm.event.DelayedEvent;
-import com.example.smartalarm.event.Event;
 
 import java.util.List;
 
@@ -20,8 +18,8 @@ public interface DelayedEventDao {
    void update(DelayedEvent event);
 
    @Query("SELECT * FROM delayed_event")
-   LiveData<List<Event>> getAllEvents();
+   LiveData<List<DelayedEvent>> getAllEvents();
 
    @Query("SELECT * FROM delayed_event WHERE id = :ID")
-   AlarmAction getDelayedEvent(int ID);
+   DelayedEvent getDelayedEvent(int ID);
 }

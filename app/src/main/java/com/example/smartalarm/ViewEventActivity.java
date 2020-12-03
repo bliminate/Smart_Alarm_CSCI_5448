@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import com.example.smartalarm.event.Event;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 
@@ -48,18 +49,22 @@ public class ViewEventActivity extends AppCompatActivity
         }
 
         loadSpinnerData();
+
+        // Set the event data
+        mEvent = (Event) getIntent().getSerializableExtra("event");
+        mEventName.setText(mEvent.getName());
+        mEventDate.setText(mEvent.getDelay().toString());
+        mEventTime.setText(mEvent.getDelay().toString());
     }
 
     public void saveEvent(View view) {
         // Extract All information from the view
         String eventName = mEventName.getText().toString();
 
-        // Create an event
-        Event event = new Event(eventName, calendar, actionKey);
 
         // Set info as a single Intent object
         Intent replyIntent = new Intent();
-        replyIntent.putExtra(CREATED_EVENT, event);
+        replyIntent.putExtra(CREATED_EVENT, (Serializable) mEvent);
 
         // Return the intent back to the original activity (MainActivity)
         setResult(RESULT_OK, replyIntent);

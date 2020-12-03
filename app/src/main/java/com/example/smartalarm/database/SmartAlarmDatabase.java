@@ -4,14 +4,18 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 import com.example.smartalarm.action.AlarmAction;
 import com.example.smartalarm.dao.AlarmDao;
 import com.example.smartalarm.dao.DelayedEventDao;
 import com.example.smartalarm.dao.ImmediateEventDao;
+import com.example.smartalarm.event.DelayedEvent;
+import com.example.smartalarm.event.ImmediateEvent;
 
 //DB Code taken from: https://developer.android.com/codelabs/android-training-livedata-viewmodel?index=..%2F..%2Fandroid-training#6
 // This is a singleton db class to provide a db instance to communicate with
-@Database(entities = {AlarmAction.class}, version = 1, exportSchema = false)
+@Database(entities = {AlarmAction.class, DelayedEvent.class, ImmediateEvent.class}, version = 1, exportSchema = false)
+@TypeConverters({CalendarTypeConverter.class})
 public abstract class SmartAlarmDatabase extends RoomDatabase {
    public abstract AlarmDao alarmDao();
    public abstract DelayedEventDao delayedEventDao();

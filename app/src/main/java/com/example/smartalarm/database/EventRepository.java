@@ -50,7 +50,7 @@ public class EventRepository {
    // https://developer.android.com/reference/androidx/lifecycle/MediatorLiveData
    private LiveData<List<Event>> getAllEvents(){
       MediatorLiveData<List<Event>> ret = new MediatorLiveData<>();
-      LiveData<List<Event>> immediate = IED.getAllEvents();
+      LiveData<List<Event>> immediate = (LiveData<List<Event>>) IED.getAllEvents();
       LiveData<List<Event>> delayed = DED.getAllEvents();
       ret.addSource(immediate, value -> ret.setValue(value));
       ret.addSource(delayed, value -> ret.setValue(value));

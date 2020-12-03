@@ -3,6 +3,8 @@ package com.example.smartalarm.event;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+import com.example.smartalarm.database.CalendarTypeConverter;
 
 import java.util.Calendar;
 
@@ -21,6 +23,8 @@ public class ImmediateEvent extends Event {
 
    @Override
    public int getID(){ return ID; }
+
+   public void setID(int id){ ID = id; }
 
    @Override
    public void activateEvent() {
@@ -46,6 +50,14 @@ public class ImmediateEvent extends Event {
       return delay;
    }
 
+   @Override
+   public String getCurrentState(){ return currentState; }
+
+   @Override
+   public void setCurrentState(String s) {
+      currentState = s;
+   }
+
    @PrimaryKey(autoGenerate = true)
    private int ID;
    @ColumnInfo(name = "Name")
@@ -53,5 +65,6 @@ public class ImmediateEvent extends Event {
    @ColumnInfo(name = "State")
    private String currentState;
    @ColumnInfo(name = "Delay")
+   @TypeConverters({CalendarTypeConverter.class})
    private Calendar delay;
 }

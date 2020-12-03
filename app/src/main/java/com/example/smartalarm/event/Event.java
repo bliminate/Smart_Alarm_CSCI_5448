@@ -1,5 +1,6 @@
 package com.example.smartalarm.event;
 
+import androidx.room.Ignore;
 import com.example.smartalarm.observer.iSubject;
 
 import java.beans.PropertyChangeListener;
@@ -27,6 +28,10 @@ public abstract class Event implements iSubject, Serializable {
 
    public abstract int getID();
 
+   public abstract String getCurrentState();
+
+   public abstract void setCurrentState(String s);
+
    @Override
    public void addObserver(PropertyChangeListener observer){
       subject.addPropertyChangeListener(observer);
@@ -47,6 +52,7 @@ public abstract class Event implements iSubject, Serializable {
       subject.firePropertyChange("action", oldObj, newObj);
    }
 
+   @Ignore
    private PropertyChangeSupport subject;
 
 }

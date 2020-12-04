@@ -66,7 +66,7 @@ public class ViewEventActivity extends AppCompatActivity
     public void saveEvent(View view) {
         // Extract All information from the view
         String eventName = mEventName.getText().toString();
-
+        mEvent.setName(eventName);
         mEVM.update(mEvent);
         // Set info as a single Intent object
         //Intent replyIntent = new Intent();

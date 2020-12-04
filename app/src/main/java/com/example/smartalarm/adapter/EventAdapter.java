@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.smartalarm.R;
 import com.example.smartalarm.event.Event;
 
-import java.io.Serializable;
 import java.util.HashMap;
 
 public class EventAdapter extends
@@ -43,7 +42,7 @@ public class EventAdapter extends
          // https://stackoverflow.com/questions/50103671/pass-values-from-recyclerview-to-view-it-in-activity
          // Retrieve the data for that position.
          Event event = (Event) mEvents.keySet().toArray()[itemPosition];
-         intent.putExtra("event", (Serializable) event);
+         intent.putExtra("event", event);
          mAdapter.notifyDataSetChanged();
          mContext.startActivity(intent);
          ((Activity) mContext).finish();

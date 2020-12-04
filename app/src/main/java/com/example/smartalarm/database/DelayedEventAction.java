@@ -4,11 +4,11 @@ import androidx.room.Entity;
 
 @Entity(primaryKeys = {"DelayedEventID", "ActionID"})
 public class DelayedEventAction {
-   private int DelayedEventID;
-   private int ActionID;
+   public int DelayedEventID;
+   public int ActionID;
 
-   public DelayedEventAction(int EventID, int ActionID){
-      this.DelayedEventID = EventID;
+   public DelayedEventAction(int DelayedEventID, int ActionID){
+      this.DelayedEventID = DelayedEventID;
       this.ActionID = ActionID;
    }
 }

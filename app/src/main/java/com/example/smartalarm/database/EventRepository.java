@@ -65,7 +65,7 @@ public class EventRepository {
    private void insertImmediateEventAction(Event event){
       for (PropertyChangeListener l :  event.getObservers()) {
          Action a = (Action) l;
-         ImmediateEventAction iea = new ImmediateEventAction(event.getID(), a.getID());
+         ImmediateEventAlarmAction iea = new ImmediateEventAlarmAction(event.getID(), a.getID());
          IEWAD.insert(iea);
       }
    }

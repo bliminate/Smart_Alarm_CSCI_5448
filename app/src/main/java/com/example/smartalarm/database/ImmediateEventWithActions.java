@@ -12,9 +12,9 @@ public class ImmediateEventWithActions {
    @Embedded
    public ImmediateEvent event;
 
-   @Relation(parentColumn = "eID",
-             entityColumn = "aID",
-             associateBy = @Junction(ImmediateEventAction.class))
+   @Relation(parentColumn = "ID",
+             entityColumn = "ID",
+             associateBy = @Junction(ImmediateEventAlarmAction.class))
    public List<Action> actions;
 
    public void subscribeActions(){

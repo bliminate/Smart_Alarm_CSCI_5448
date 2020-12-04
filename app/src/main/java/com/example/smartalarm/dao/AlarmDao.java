@@ -18,12 +18,12 @@ public interface AlarmDao {
    @Update
    void update(AlarmAction alarm);
 
-   @Query("SELECT Name, id FROM alarm_action")
+   @Query("SELECT Name, ActionID FROM alarm_action")
    LiveData<List<NameIdPair>> getAllNames();
 
    @Query("SELECT * FROM alarm_action")
    LiveData<List<AlarmAction>> getAllActions();
 
-   @Query("SELECT * FROM alarm_action WHERE id = :ID")
+   @Query("SELECT * FROM alarm_action WHERE ActionID = :ID")
    AlarmAction getAlarmAction(Integer ID);
 }

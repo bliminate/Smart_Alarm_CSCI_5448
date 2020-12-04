@@ -12,9 +12,9 @@ import java.io.Serializable;
 
 @Entity(tableName="coffee_action")
 public class CoffeeAction extends Action implements Serializable {
-   public CoffeeAction(Integer ID, String name, Integer water, Integer ground){
+   public CoffeeAction(Integer ActionID, String name, Integer water, Integer ground){
       super();
-      this.ID = ID;
+      this.ActionID = ActionID;
       this.name = name;
       this.water = water;
       this.ground = ground;
@@ -38,10 +38,10 @@ public class CoffeeAction extends Action implements Serializable {
    public void stopAction() {
    }
 
-   public Integer getID(){
-      return ID;
+   @Override
+   public Integer getActionID(){
+      return ActionID;
    }
-
 
    @Override
    public void setName(String s) {
@@ -85,7 +85,8 @@ public class CoffeeAction extends Action implements Serializable {
    }
 
    @PrimaryKey(autoGenerate = true)
-   private Integer ID;
+   @ColumnInfo(name = "ActionID")
+   private Integer ActionID;
 
    @ColumnInfo(name = "Name")
    private String name;

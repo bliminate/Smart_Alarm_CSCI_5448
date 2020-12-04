@@ -59,6 +59,7 @@ public class ImmediateEvent extends Event {
    }
 
    @PrimaryKey(autoGenerate = true)
+   @ColumnInfo(name = "ImmediateEventID")
    private int ID;
    @ColumnInfo(name = "Name")
    private String name;

@@ -86,6 +86,7 @@ public class DelayedEvent extends Event implements PropertyChangeListener {
    }
 
    @PrimaryKey(autoGenerate = true)
+   @ColumnInfo(name = "DelayedEventID")
    private int ID;
    @ColumnInfo(name = "Name")
    private String name;

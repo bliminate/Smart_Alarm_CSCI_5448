@@ -11,5 +11,5 @@ public abstract class Action implements PropertyChangeListener {
 
    public abstract String getName();
 
-    public abstract Integer getID();
+    public abstract Integer getActionID();
 }

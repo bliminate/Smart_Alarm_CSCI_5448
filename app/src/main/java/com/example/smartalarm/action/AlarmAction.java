@@ -14,10 +14,10 @@ import java.util.concurrent.Executors;
 
 @Entity(tableName="alarm_action")
 public class AlarmAction extends Action implements Serializable {
-   public AlarmAction(Integer ID, String name, Boolean vibrate, Integer soundResource,
+   public AlarmAction(Integer ActionID, String name, Boolean vibrate, Integer soundResource,
                       Integer volume, Integer vibrateResource){
       super();
-      this.ID = ID;
+      this.ActionID = ActionID;
       this.name = name;
       this.vibrate = vibrate;
       this.soundResource = soundResource;
@@ -103,8 +103,9 @@ public class AlarmAction extends Action implements Serializable {
       return soundResource;
    }
 
-   public Integer getID(){
-      return ID;
+   @Override
+   public Integer getActionID(){
+      return ActionID;
    }
 
    public Integer getVibrateResource(){
@@ -129,7 +130,8 @@ public class AlarmAction extends Action implements Serializable {
    }
 
    @PrimaryKey(autoGenerate = true)
-   private Integer ID;
+   @ColumnInfo(name = "ActionID")
+   private Integer ActionID;
    @ColumnInfo(name = "Name")
    private String name;
    @ColumnInfo(name = "Vibrate")

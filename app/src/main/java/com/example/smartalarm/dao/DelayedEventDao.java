@@ -20,6 +20,6 @@ public interface DelayedEventDao {
    @Query("SELECT * FROM delayed_event")
    LiveData<List<DelayedEvent>> getAllEvents();
 
-   @Query("SELECT * FROM delayed_event WHERE id = :ID")
+   @Query("SELECT * FROM delayed_event WHERE DelayedEventID = :ID")
    DelayedEvent getDelayedEvent(int ID);
 }

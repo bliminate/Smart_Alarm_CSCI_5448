@@ -21,6 +21,6 @@ public interface ImmediateEventDao {
    @Query("SELECT * FROM immediate_event")
    LiveData<List<ImmediateEvent>> getAllEvents();
 
-   @Query("SELECT * FROM immediate_event WHERE id = :ID")
+   @Query("SELECT * FROM immediate_event WHERE ImmediateEventID = :ID")
    AlarmAction getImmediateEvent(int ID);
 }

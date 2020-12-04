@@ -19,12 +19,12 @@ public interface CoffeeActionDao {
    @Update
    void update(CoffeeAction alarm);
 
-   @Query("SELECT Name, id FROM coffee_action")
+   @Query("SELECT Name, ActionID FROM coffee_action")
    LiveData<List<NameIdPair>> getAllNames();
 
    @Query("SELECT * FROM coffee_action")
    LiveData<List<CoffeeAction>> getAllActions();
 
-   @Query("SELECT * FROM coffee_action WHERE id = :ID")
+   @Query("SELECT * FROM coffee_action WHERE ActionID = :ID")
    CoffeeAction getAction(Integer ID);
 }

@@ -17,12 +17,13 @@ public class DelayedEvent extends Event implements PropertyChangeListener {
       currentState = "deactivated";
    }
 
-   public DelayedEvent(int id, String state, String name, Calendar delay){
+   public DelayedEvent(int id, String state, String name, Calendar delay, Integer actionID){
       super();
       this.ID = id;
       this.currentState = state;
       this.name = name;
       this.delay = delay;
+      this.actionId = actionID;
    }
 
    @Override
@@ -73,6 +74,12 @@ public class DelayedEvent extends Event implements PropertyChangeListener {
    }
 
    @Override
+   public void setActionId(Integer actionId) { this.actionId = actionId; }
+
+   @Override
+   public Integer getActionId() { return this.actionId; }
+
+   @Override
    public void setCurrentState(String s) {
       currentState = s;
    }
@@ -94,4 +101,6 @@ public class DelayedEvent extends Event implements PropertyChangeListener {
    @ColumnInfo(name = "Delay")
    @TypeConverters({CalendarTypeConverter.class})
    private Calendar delay;
+   @ColumnInfo(name = "ActionID")
+   private Integer actionId;
 }

@@ -5,16 +5,30 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TimePicker;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.example.smartalarm.action.Action;
+import com.example.smartalarm.event.DelayedEvent;
 import com.example.smartalarm.event.Event;
 import com.example.smartalarm.fragment.DatePickerFragment;
 import com.example.smartalarm.fragment.TimePickerFragment;
+import com.example.smartalarm.viewModels.ActionViewModel;
 import com.example.smartalarm.viewModels.EventViewModel;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 
 public class ViewEventActivity extends AppCompatActivity
@@ -25,7 +39,7 @@ public class ViewEventActivity extends AppCompatActivity
     private static final String LOG_TAG = ViewEventActivity.class.getSimpleName();
     public static final String CREATED_EVENT = "CREATED_EVENT";
     public static final int TEXT_REQUEST = 1;
-    private String actionKey;
+    private Integer actionId;
     private EventViewModel mEVM;
     private EditText mEventName;
     private EditText mEventDate;
@@ -34,17 +48,21 @@ public class ViewEventActivity extends AppCompatActivity
     private Calendar calendar;
     private Event mEvent;
 
+    private List<Action> actions;
+    private List<String> actionNames;
+    private ActionViewModel mAVM;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
-        actionKey = "";
         calendar =  Calendar.getInstance();
 
         mEventName = findViewById(R.id.editEventName);
         mEventDate = findViewById(R.id.editEventDate);
         mEventTime = findViewById(R.id.editEventTime);
         mEVM = new ViewModelProvider(this).get(EventViewModel.class);
+        mAVM = new ViewModelProvider(this).get(ActionViewModel.class);
 
         // Set Spinner
         mSpinner = (Spinner) findViewById(R.id.spinner);
@@ -52,11 +70,34 @@ public class ViewEventActivity extends AppCompatActivity
             mSpinner.setOnItemSelectedListener(this);
         }
 
-        loadSpinnerData();
+        List<String> actionNames = new ArrayList<>();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_spinner_item,
+                actionNames);
 
+        mAVM.getActions().observe(this, new Observer<List<Action>>() {
+            @Override
+            public void onChanged(List<Action> _actions) {
+                for (Action action : _actions) {
+                    actionNames.add(action.getName());
+                }
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        // Specify the layout to use when the list of choices appears.
+        adapter.setDropDownViewResource
+                (android.R.layout.simple_spinner_dropdown_item);
+
+        // Apply the adapter to the spinner.
+        if (mSpinner != null) {
+            mSpinner.setAdapter(adapter);
+        }
         // Set the event data
         mEvent = (Event) getIntent().getSerializableExtra("event");
         mEventName.setText(mEvent.getName());
+        mSpinner.setSelection(mEvent.getID());
 
         Calendar c = mEvent.getDelay();
         mEventDate.setText("" + c.DAY_OF_MONTH + "/" + c.MONTH + "/" + c.YEAR);
@@ -67,15 +108,25 @@ public class ViewEventActivity extends AppCompatActivity
         // Extract All information from the view
         String eventName = mEventName.getText().toString();
 
-        mEVM.update(mEvent);
+        // Create an event
+        Event event = new DelayedEvent();
+        event.setDelay(calendar);
+        event.setName(eventName);
+        event.setActionId(actionId);
+        mEVM.insert(event);
+
         // Set info as a single Intent object
-        //Intent replyIntent = new Intent();
-        //replyIntent.putExtra(CREATED_EVENT, (Serializable) mEvent);
+        Intent replyIntent = new Intent();
+        replyIntent.putExtra(CREATED_EVENT, (Serializable) event);
+
+        // Save it in db
+        mEVM.insert(event);
 
         // Return the intent back to the original activity (MainActivity)
-        //setResult(RESULT_OK, replyIntent);
+        setResult(RESULT_OK, replyIntent);
         finish();
     }
+
 
     public void createAction(View view) {
         // Create an Intent to pass to AddActionActivity
@@ -84,28 +135,6 @@ public class ViewEventActivity extends AppCompatActivity
         // Once done, return to this page
         startActivityForResult(intent, TEXT_REQUEST);
 
-        // When ended, Updated the Spinner so that
-        // the newly created action is shown in the list
-        loadSpinnerData();
-    }
-
-    // TODO
-    private void loadSpinnerData() {
-        // Create an ArrayAdapter using the string array and default spinner
-        // layout.
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this,
-                R.array.labels_array,
-                android.R.layout.simple_spinner_item);
-
-        // Specify the layout to use when the list of choices appears.
-        adapter.setDropDownViewResource
-                (android.R.layout.simple_spinner_dropdown_item);
-
-        // Apply the adapter to the spinner.
-        if (mSpinner != null) {
-            mSpinner.setAdapter(adapter);
-        }
     }
 
     public void stopCreateEvent(View view) {
@@ -143,11 +172,12 @@ public class ViewEventActivity extends AppCompatActivity
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        actionKey = parent.getItemAtPosition(position).toString();
+//        String actionName = (String) parent.getItemAtPosition(position);
+        actionId = position;
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-        actionKey = "";
+        actionId = mEvent.getActionId();
     }
 }

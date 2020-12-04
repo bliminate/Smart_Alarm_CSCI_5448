@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.smartalarm.adapter.EventAdapter;
 import com.example.smartalarm.event.Event;
 import com.example.smartalarm.viewModels.EventViewModel;
@@ -31,12 +34,14 @@ public class MainActivity extends AppCompatActivity {
       setContentView(R.layout.activity_main);
 
       mEVM = new ViewModelProvider(this).get(EventViewModel.class);
-      mEVM.getEvents().observe(this, Events -> {
-         mEventDict = new HashMap<>();
-         for(Event e : Events){
-            mEventDict.put(e, new ViewEventActivity());
+      mEVM.getEvents().observe(this, new Observer<List<Event>>() {
+         @Override
+         public void onChanged(List<Event> Events) {
+            for (Event e : Events) {
+               mEventDict.put(e, new ViewEventActivity());
+            }
+            mEventAdapter.setEvents(mEventDict);
          }
-         mEventAdapter.setEvents(mEventDict);
       });
 
       setEventRecyclerView();

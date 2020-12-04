@@ -40,7 +40,8 @@ public class AddEventActivity extends AppCompatActivity
     public static final String CREATED_EVENT = "CREATED_EVENT";
     public static final int TEXT_REQUEST = 1;
     private EventViewModel mEVM;
-    private String actionKey;
+    private String actionName;
+    private int actionId;
 
     private EditText mEventName;
     private EditText mEventDate;
@@ -56,7 +57,6 @@ public class AddEventActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
-        actionKey = "";
         calendar =  Calendar.getInstance();
 
         mEventName = findViewById(R.id.editEventName);
@@ -67,7 +67,6 @@ public class AddEventActivity extends AppCompatActivity
         // Read a list of actions from db
         actions = new ArrayList<>();
         mAVM = new ViewModelProvider(this).get(ActionViewModel.class);
-        mEVM = new ViewModelProvider(this).get(EventViewModel.class);
 
         // Set Spinner
         mSpinner = (Spinner) findViewById(R.id.spinner);
@@ -110,11 +109,11 @@ public class AddEventActivity extends AppCompatActivity
         // Extract All information from the view
         String eventName = mEventName.getText().toString();
 
-        //TODO: logic to create delayed vs immediate event
         // Create an event
         Event event = new DelayedEvent();
         event.setDelay(calendar);
         event.setName(eventName);
+        event.setActionId(actionId);
         mEVM.insert(event);
 
         // Set info as a single Intent object
@@ -198,11 +197,12 @@ public class AddEventActivity extends AppCompatActivity
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        actionKey = parent.getItemAtPosition(position).toString();
+        actionName = parent.getItemAtPosition(position).toString();
+        actionId = position;
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-        actionKey = "";
+        actionName = "";
     }
 }

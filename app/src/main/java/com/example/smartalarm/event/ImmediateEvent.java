@@ -54,6 +54,12 @@ public class ImmediateEvent extends Event {
    }
 
    @Override
+   public void setActionId(Integer actionId) { this.actionId = actionId; }
+
+   @Override
+   public Integer getActionId() { return actionId; }
+
+   @Override
    public void setCurrentState(String s) {
       currentState = s;
    }
@@ -67,4 +73,6 @@ public class ImmediateEvent extends Event {
    @ColumnInfo(name = "Delay")
    @TypeConverters({CalendarTypeConverter.class})
    private Calendar delay;
+   @ColumnInfo(name = "ActionID")
+   private Integer actionId;
 }

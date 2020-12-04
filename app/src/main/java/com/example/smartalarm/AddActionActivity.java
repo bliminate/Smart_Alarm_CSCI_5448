@@ -1,13 +1,10 @@
 package com.example.smartalarm;
 
 import android.os.Bundle;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.smartalarm.action.Action;
 import com.example.smartalarm.action.AlarmAction;
 import com.example.smartalarm.action.CoffeeAction;
@@ -16,7 +13,6 @@ import com.example.smartalarm.adapter.ActionListAdapter;
 import com.example.smartalarm.viewModels.ActionViewModel;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class AddActionActivity extends AppCompatActivity {
     private HashMap<String, AppCompatActivity> mActionDict =  new HashMap<>();
@@ -59,11 +55,10 @@ public class AddActionActivity extends AppCompatActivity {
                     mExistingActionDict.put(a, new ViewAlarmActionActivity());
                 }
                 else if(a instanceof CoffeeAction){
-                    //TODO: Implement Coffee action
                     mExistingActionDict.put(a, new ViewCoffeeActionActivity());
                 }
-                mActionAdapter.setActions(mExistingActionDict);
             }
+            mActionAdapter.setActions(mExistingActionDict);
         });
     }
 }

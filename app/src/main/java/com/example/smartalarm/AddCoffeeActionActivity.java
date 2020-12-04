@@ -6,14 +6,18 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.smartalarm.action.CoffeeAction;
+import com.example.smartalarm.viewModels.ActionViewModel;
 
 public class AddCoffeeActionActivity extends AppCompatActivity {
     private EditText mName;
     private SeekBar mWaterAmount;
     private SeekBar mGroundAmount;
     public static final String CREATED_ACTION = "CREATED_ACTION";
+
+    private ActionViewModel mAVM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +27,8 @@ public class AddCoffeeActionActivity extends AppCompatActivity {
         mName = findViewById(R.id.editActionName);
         mWaterAmount = findViewById(R.id.waterAmountSeekBar);
         mGroundAmount = findViewById(R.id.groundAmountSeekBar);
+
+        mAVM = new ViewModelProvider(this).get(ActionViewModel.class);
     }
 
     public void saveAction(View view) {
@@ -30,15 +36,18 @@ public class AddCoffeeActionActivity extends AppCompatActivity {
         int waterAmount = mWaterAmount.getProgress();
         int groundAmount = mGroundAmount.getProgress();
 
-        CoffeeAction coffeeAction = new CoffeeAction();
-        coffeeAction.setUrl("http://10.0.2.2:8000");
+        CoffeeAction coffeeAction = new CoffeeAction("http://10.0.2.2:8000");
         coffeeAction.setName(name);
         coffeeAction.setWater(waterAmount);
         coffeeAction.setGround(groundAmount);
 
-        // TODO: Store in db
-        coffeeAction.executeAction();
+        // Store in db
+        mAVM.insert(coffeeAction);
 
+        // Trigger Action just for demo
+        // coffeeAction.executeAction();
+
+        // Return
         finish();
     }
 

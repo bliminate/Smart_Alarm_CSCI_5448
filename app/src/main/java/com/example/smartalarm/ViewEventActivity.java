@@ -57,15 +57,10 @@ public class ViewEventActivity extends AppCompatActivity
         // Set the event data
         mEvent = (Event) getIntent().getSerializableExtra("event");
         mEventName.setText(mEvent.getName());
-        String date = "" + mEvent.getDelay().get(Calendar.DAY_OF_MONTH);
-        date += "/";
-        date += (mEvent.getDelay().get(Calendar.MONTH) + 1);
-        date += "/";
-        date += mEvent.getDelay().get(Calendar.YEAR);
-        mEventDate.setText(date);
-        String time = "" + mEvent.getDelay().get(Calendar.HOUR) + ":";
-        time += mEvent.getDelay().get(Calendar.MINUTE);
-        mEventTime.setText(time);
+
+        Calendar c = mEvent.getDelay();
+        mEventDate.setText("" + c.DAY_OF_MONTH + "/" + c.MONTH + "/" + c.YEAR);
+        mEventTime.setText("" + c.HOUR_OF_DAY + ":" + c.MINUTE);
     }
 
     public void saveEvent(View view) {

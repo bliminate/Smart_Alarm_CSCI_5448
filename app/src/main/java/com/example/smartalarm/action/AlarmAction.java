@@ -13,8 +13,9 @@ import java.util.concurrent.Executors;
 
 @Entity(tableName="alarm_action")
 public class AlarmAction extends Action {
-   public AlarmAction(int ID, String name, Boolean vibrate, Integer soundResource,
+   public AlarmAction(Integer ID, String name, Boolean vibrate, Integer soundResource,
                       Integer volume, Integer vibrateResource){
+      super();
       this.ID = ID;
       this.name = name;
       this.vibrate = vibrate;
@@ -101,7 +102,7 @@ public class AlarmAction extends Action {
       return soundResource;
    }
 
-   public int getID(){
+   public Integer getID(){
       return ID;
    }
 
@@ -127,7 +128,7 @@ public class AlarmAction extends Action {
    }
 
    @PrimaryKey(autoGenerate = true)
-   private int ID;
+   private Integer ID;
    @ColumnInfo(name = "Name")
    private String name;
    @ColumnInfo(name = "Vibrate")

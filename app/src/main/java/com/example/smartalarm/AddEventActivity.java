@@ -5,18 +5,30 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TimePicker;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.example.smartalarm.action.Action;
 import com.example.smartalarm.event.DelayedEvent;
 import com.example.smartalarm.event.Event;
 import com.example.smartalarm.fragment.DatePickerFragment;
 import com.example.smartalarm.fragment.TimePickerFragment;
+import com.example.smartalarm.viewModels.ActionViewModel;
 import com.example.smartalarm.viewModels.EventViewModel;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 
 public class AddEventActivity extends AppCompatActivity
@@ -36,6 +48,11 @@ public class AddEventActivity extends AppCompatActivity
     private Spinner mSpinner;
     private Calendar calendar;
 
+    private List<Action> actions;
+    private List<String> actionNames;
+    private ActionViewModel mAVM;
+    private EventViewModel mEVM;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,13 +65,42 @@ public class AddEventActivity extends AppCompatActivity
         mEventTime = findViewById(R.id.editEventTime);
         mEVM = new ViewModelProvider(this).get(EventViewModel.class);
 
+        // Read a list of actions from db
+        actions = new ArrayList<>();
+        mAVM = new ViewModelProvider(this).get(ActionViewModel.class);
+        mEVM = new ViewModelProvider(this).get(EventViewModel.class);
+
         // Set Spinner
         mSpinner = (Spinner) findViewById(R.id.spinner);
         if (mSpinner != null) {
             mSpinner.setOnItemSelectedListener(this);
         }
 
-        loadSpinnerData();
+        actionNames = new ArrayList<>();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_spinner_item,
+                actionNames);
+
+        // Specify the layout to use when the list of choices appears.
+        adapter.setDropDownViewResource
+                (android.R.layout.simple_spinner_dropdown_item);
+
+        // This may not retrieve the updated data
+        // https://stackoverflow.com/questions/59350020/populate-spinner-from-livedata-room-database
+        mAVM.getActions().observe(this, new Observer<List<Action>>() {
+            @Override
+            public void onChanged(List<Action> _actions) {
+                for (Action action : _actions) {
+                    actionNames.add(action.getName());
+                }
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+
+//        // Load action names onto the spinner object
+//        loadSpinnerData();
     }
 
     public void saveEvent(View view) {
@@ -71,6 +117,9 @@ public class AddEventActivity extends AppCompatActivity
         // Set info as a single Intent object
         Intent replyIntent = new Intent();
         replyIntent.putExtra(CREATED_EVENT, (Serializable) event);
+
+        // Save it in db
+        mEVM.insert(event);
 
         // Return the intent back to the original activity (MainActivity)
         setResult(RESULT_OK, replyIntent);
@@ -93,10 +142,15 @@ public class AddEventActivity extends AppCompatActivity
     private void loadSpinnerData() {
         // Create an ArrayAdapter using the string array and default spinner
         // layout.
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+        List<String> actionNames = new ArrayList<>();
+        for (Action action : actions) {
+            actionNames.add(action.getName());
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this,
-                R.array.labels_array,
-                android.R.layout.simple_spinner_item);
+                android.R.layout.simple_spinner_item,
+                actionNames);
 
         // Specify the layout to use when the list of choices appears.
         adapter.setDropDownViewResource

@@ -2,12 +2,20 @@ package com.example.smartalarm;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.SeekBar;
+import android.widget.Spinner;
+import android.widget.Switch;
+
 import androidx.annotation.RawRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.example.smartalarm.action.Action;
 import com.example.smartalarm.action.AlarmAction;
-import com.example.smartalarm.database.iGetAlarmAction;
+import com.example.smartalarm.database.iGetAction;
 import com.example.smartalarm.deviceAction.Sound;
 import com.example.smartalarm.deviceAction.Vibrate;
 import com.example.smartalarm.viewModels.AlarmActionViewModel;
@@ -17,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ViewAlarmActionActivity extends AppCompatActivity
-      implements AdapterView.OnItemSelectedListener, iGetAlarmAction {
+      implements AdapterView.OnItemSelectedListener, iGetAction {
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +71,8 @@ public class ViewAlarmActionActivity extends AppCompatActivity
 
    //Response code: https://stackoverflow.com/questions/12575068/how-to-get-the-result-of-onpostexecute-to-main-activity-because-asynctask-is-a/12575319#12575319
    @Override
-   public void response(AlarmAction alarm) {
-      mAlarm = alarm;
+   public void response(Action alarm) {
+      mAlarm = (AlarmAction) alarm;
       mAlarm.setSoundResourceManager(Sound.getInstance(this));
       mAlarm.setVibrateResourceManager(Vibrate.getInstance(this));
       mName.setText(mAlarm.getName());
@@ -98,6 +106,10 @@ public class ViewAlarmActionActivity extends AppCompatActivity
       mAlarm.setVolume(volume);
       // TODO: Store in db
       mAAVM.update(mAlarm);
+      finish();
+   }
+
+   public void goBack(View view) {
       finish();
    }
 

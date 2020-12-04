@@ -16,4 +16,10 @@ public class ImmediateEventWithActions {
              entityColumn = "aID",
              associateBy = @Junction(ImmediateEventAction.class))
    public List<Action> actions;
+
+   public void subscribeActions(){
+      for(Action a : actions){
+         event.addObserver(a);
+      }
+   }
 }

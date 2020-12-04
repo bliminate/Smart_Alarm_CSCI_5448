@@ -16,4 +16,10 @@ public class DelayedEventWithActions {
          entityColumn = "aID",
          associateBy = @Junction(DelayedEventAction.class))
    public List<Action> actions;
+
+   public void subscribeActions(){
+      for(Action a : actions){
+         event.addObserver(a);
+      }
+   }
 }

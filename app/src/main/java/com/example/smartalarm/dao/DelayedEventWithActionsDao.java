@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 import com.example.smartalarm.database.DelayedEventAction;
-import com.example.smartalarm.database.ImmediateEventWithActions;
+import com.example.smartalarm.database.DelayedEventWithActions;
 
 import java.util.List;
 
@@ -16,5 +16,5 @@ public interface DelayedEventWithActionsDao {
 
    @Transaction
    @Query("Select * from immediate_event")
-   public LiveData<List<ImmediateEventWithActions>> getDelayedEventWithActions();
+   public LiveData<List<DelayedEventWithActions>> getDelayedEventWithActions();
 }

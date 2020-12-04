@@ -137,7 +137,9 @@ public class ViewEventActivity extends AppCompatActivity
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         calendar.set(Calendar.MINUTE, minute);
-        mEventTime.setText("" + hourOfDay + ":" + minute);
+        String m = "" + minute;
+        if(minute < 10){ m = "0" + m; }
+        mEventTime.setText("" + hourOfDay + ":" + m);
         mEvent.setDelay(calendar);
     }
 

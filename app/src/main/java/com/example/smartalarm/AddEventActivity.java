@@ -51,7 +51,6 @@ public class AddEventActivity extends AppCompatActivity
     private List<Action> actions;
     private List<String> actionNames;
     private ActionViewModel mAVM;
-    private EventViewModel mEVM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,15 +84,18 @@ public class AddEventActivity extends AppCompatActivity
         // Specify the layout to use when the list of choices appears.
         adapter.setDropDownViewResource
                 (android.R.layout.simple_spinner_dropdown_item);
+        mSpinner.setAdapter(adapter);
 
         // This may not retrieve the updated data
         // https://stackoverflow.com/questions/59350020/populate-spinner-from-livedata-room-database
         mAVM.getActions().observe(this, new Observer<List<Action>>() {
             @Override
             public void onChanged(List<Action> _actions) {
+                List<String> names = new ArrayList<>();
                 for (Action action : _actions) {
-                    actionNames.add(action.getName());
+                    names.add(action.getName());
                 }
+                adapter.addAll(names);
                 adapter.notifyDataSetChanged();
             }
         });
@@ -183,14 +185,16 @@ public class AddEventActivity extends AppCompatActivity
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        mEventDate.setText("" + dayOfMonth + "/" + month + "/" + year);
+        mEventDate.setText("" + dayOfMonth + "/" + (month + 1) + "/" + year);
     }
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         calendar.set(Calendar.MINUTE, minute);
-        mEventTime.setText("" + hourOfDay + ":" + minute);
+        String m = "" + minute;
+        if(minute < 10){ m = "0" + m; }
+        mEventTime.setText("" + hourOfDay + ":" + m);
     }
 
     @Override

@@ -2,20 +2,11 @@ package com.example.smartalarm;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.SeekBar;
-import android.widget.Spinner;
-import android.widget.Switch;
-
+import android.widget.*;
 import androidx.annotation.RawRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-
-import com.example.smartalarm.action.Action;
 import com.example.smartalarm.action.AlarmAction;
-import com.example.smartalarm.database.iGetAction;
 import com.example.smartalarm.deviceAction.Sound;
 import com.example.smartalarm.deviceAction.Vibrate;
 import com.example.smartalarm.viewModels.AlarmActionViewModel;
@@ -25,15 +16,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ViewAlarmActionActivity extends AppCompatActivity
-      implements AdapterView.OnItemSelectedListener, iGetAction {
+      implements AdapterView.OnItemSelectedListener {
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_add_alarm_action);
-      ID = getIntent().getIntExtra("ID", 0);
+      mAlarm = (AlarmAction) getIntent().getSerializableExtra("action");
       mAAVM = new ViewModelProvider(this).get(AlarmActionViewModel.class);
-      mAAVM.getAlarm(ID, this);
       mRawResourceMap = new HashMap<>();
       mRawResourceIdNameMap = new HashMap<>();
       mName = findViewById(R.id.editActionName);
@@ -50,6 +40,22 @@ public class ViewAlarmActionActivity extends AppCompatActivity
       } catch (IllegalAccessException e) {
          e.printStackTrace();
       }
+
+      //populate view with alarm action values
+      mAlarm.setSoundResourceManager(Sound.getInstance(this));
+      mAlarm.setVibrateResourceManager(Vibrate.getInstance(this));
+      mName.setText(mAlarm.getName());
+      mVolume.setProgress(mAlarm.getVolume());
+      String soundName = mRawResourceIdNameMap.get(mAlarm.getSoundResource());
+      int pos = 0;
+      for(int i = 0; i < mAlarmSound.getCount(); i++){
+         if(mAlarmSound.getItemAtPosition(i).toString().equals(soundName)){
+            pos = i;
+            break;
+         }
+      }
+      mAlarmSound.setSelection(pos);
+      mVibrate.setChecked(mAlarm.getVibrate());
    }
 
    private void loadSpinnerData() throws IllegalAccessException {
@@ -67,26 +73,6 @@ public class ViewAlarmActionActivity extends AppCompatActivity
          adapter.add(sName);
       }
       mAlarmSound.setAdapter(adapter);
-   }
-
-   //Response code: https://stackoverflow.com/questions/12575068/how-to-get-the-result-of-onpostexecute-to-main-activity-because-asynctask-is-a/12575319#12575319
-   @Override
-   public void response(Action alarm) {
-      mAlarm = (AlarmAction) alarm;
-      mAlarm.setSoundResourceManager(Sound.getInstance(this));
-      mAlarm.setVibrateResourceManager(Vibrate.getInstance(this));
-      mName.setText(mAlarm.getName());
-      mVolume.setProgress(mAlarm.getVolume());
-      String soundName = mRawResourceIdNameMap.get(mAlarm.getSoundResource());
-      int pos = 0;
-      for(int i = 0; i < mAlarmSound.getCount(); i++){
-         if(mAlarmSound.getItemAtPosition(i).toString().equals(soundName)){
-            pos = i;
-            break;
-         }
-      }
-      mAlarmSound.setSelection(pos);
-      mVibrate.setChecked(mAlarm.getVibrate());
    }
 
    @Override
@@ -121,5 +107,4 @@ public class ViewAlarmActionActivity extends AppCompatActivity
    private Map<Integer, String> mRawResourceIdNameMap;
    private AlarmAction mAlarm;
    private AlarmActionViewModel mAAVM;
-   private int ID;
 }

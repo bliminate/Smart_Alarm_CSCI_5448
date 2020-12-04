@@ -8,11 +8,12 @@ import com.example.smartalarm.deviceAction.iSound;
 import com.example.smartalarm.deviceAction.iVibrate;
 
 import java.beans.PropertyChangeEvent;
+import java.io.Serializable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Entity(tableName="alarm_action")
-public class AlarmAction extends Action {
+public class AlarmAction extends Action implements Serializable {
    public AlarmAction(Integer ID, String name, Boolean vibrate, Integer soundResource,
                       Integer volume, Integer vibrateResource){
       super();

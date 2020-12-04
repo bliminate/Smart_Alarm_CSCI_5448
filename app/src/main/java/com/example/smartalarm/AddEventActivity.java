@@ -114,7 +114,6 @@ public class AddEventActivity extends AppCompatActivity
         Event event = new DelayedEvent();
         event.setDelay(calendar);
         event.setName(eventName);
-        mEVM.insert(event);
 
         // Set info as a single Intent object
         Intent replyIntent = new Intent();

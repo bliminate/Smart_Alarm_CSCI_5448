@@ -18,7 +18,7 @@ import com.example.smartalarm.event.ImmediateEvent;
 
 //DB Code taken from: https://developer.android.com/codelabs/android-training-livedata-viewmodel?index=..%2F..%2Fandroid-training#6
 // This is a singleton db class to provide a db instance to communicate with
-@Database(entities = {AlarmAction.class, CoffeeAction.class, DelayedEvent.class, ImmediateEvent.class}, version = 3, exportSchema = false)
+@Database(entities = {AlarmAction.class, CoffeeAction.class, DelayedEvent.class, ImmediateEvent.class}, version = 4, exportSchema = false)
 @TypeConverters({CalendarTypeConverter.class})
 public abstract class SmartAlarmDatabase extends RoomDatabase {
    public abstract AlarmDao alarmDao();

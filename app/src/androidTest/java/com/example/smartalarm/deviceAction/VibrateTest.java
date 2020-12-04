@@ -16,7 +16,7 @@ public class VibrateTest {
    public void testVibrateMethod() {
       // Context of the app under test.
       Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-      Vibrate v = new Vibrate(appContext);
+      Vibrate v = Vibrate.getInstance(appContext);
       v.vibrate();
       assertEquals("com.example.smartalarm", appContext.getPackageName());
    }

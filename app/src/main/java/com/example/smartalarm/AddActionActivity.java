@@ -1,17 +1,25 @@
 package com.example.smartalarm;
 
+import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Bundle;
+import com.example.smartalarm.dataStructures.NameIdPair;
+import com.example.smartalarm.viewModels.AlarmActionViewModel;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class AddActionActivity extends AppCompatActivity {
     private HashMap<String, AppCompatActivity> mActionDict =  new HashMap<>();
+    private HashMap<NameIdPair, AppCompatActivity> mExistingActionDict =  new HashMap<>();
     private RecyclerView mRecyclerView;
+    private RecyclerView mActionRecyclerView;
     private ActionListAdapter mAdapter;
+    private AlarmListAdapter mActionAdapter;
+    private AlarmActionViewModel mAAVM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +39,23 @@ public class AddActionActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
         // Give the recycler view a default layout manager.
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        mActionRecyclerView = findViewById(R.id.actionrecyclerview);
+        mActionAdapter = new AlarmListAdapter(this, mExistingActionDict);
+        mActionRecyclerView.setAdapter(mActionAdapter);
+        mActionRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        mAAVM = new ViewModelProvider(this).get(AlarmActionViewModel.class);
+        mAAVM.getAlarmNames().observe(this, new Observer<List<NameIdPair>>() {
+            @Override
+            public void onChanged(List<NameIdPair> nameIdPairs) {
+                mExistingActionDict = new HashMap<>();
+                for(NameIdPair nid : nameIdPairs){
+                    mExistingActionDict.put(nid, new ViewAlarmActionActivity());
+                }
+                mActionAdapter.setActions(mExistingActionDict);
+            }
+        });
     }
 
 }

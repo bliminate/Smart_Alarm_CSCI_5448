@@ -11,6 +11,7 @@ import androidx.lifecycle.LiveData;
 import com.example.smartalarm.action.Action;
 import com.example.smartalarm.clock.MinuteClock;
 import com.example.smartalarm.database.ActionRepository;
+import com.example.smartalarm.database.iGetAction;
 
 import java.util.List;
 
@@ -37,5 +38,9 @@ public class ActionViewModel extends AndroidViewModel {
 
     public LiveData<List<Action>> getActions(){
         return mActions;
+    }
+
+    public void getAction(String coffeeAction, Integer id, iGetAction resp){
+        repo.getAction(coffeeAction, id, resp);
     }
 }

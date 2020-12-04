@@ -51,7 +51,6 @@ public class AddEventActivity extends AppCompatActivity
     private List<Action> actions;
     private List<String> actionNames;
     private ActionViewModel mAVM;
-    private EventViewModel mEVM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +84,10 @@ public class AddEventActivity extends AppCompatActivity
         // Specify the layout to use when the list of choices appears.
         adapter.setDropDownViewResource
                 (android.R.layout.simple_spinner_dropdown_item);
+
+        if (mSpinner != null) {
+            mSpinner.setAdapter(adapter);
+        }
 
         // This may not retrieve the updated data
         // https://stackoverflow.com/questions/59350020/populate-spinner-from-livedata-room-database

@@ -10,4 +10,6 @@ public abstract class Action implements PropertyChangeListener {
    public abstract void setName(String s);
 
    public abstract String getName();
+
+    public abstract Integer getID();
 }

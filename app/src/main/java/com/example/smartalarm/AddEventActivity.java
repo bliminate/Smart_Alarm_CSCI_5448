@@ -86,6 +86,10 @@ public class AddEventActivity extends AppCompatActivity
                 (android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(adapter);
 
+        if (mSpinner != null) {
+            mSpinner.setAdapter(adapter);
+        }
+
         // This may not retrieve the updated data
         // https://stackoverflow.com/questions/59350020/populate-spinner-from-livedata-room-database
         mAVM.getActions().observe(this, new Observer<List<Action>>() {

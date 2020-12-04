@@ -1,27 +1,32 @@
 package com.example.smartalarm;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.smartalarm.action.Action;
+import com.example.smartalarm.action.AlarmAction;
+import com.example.smartalarm.action.CoffeeAction;
 import com.example.smartalarm.adapter.ActionAdapter;
 import com.example.smartalarm.adapter.AlarmListAdapter;
-import com.example.smartalarm.dataStructures.NameIdPair;
-import com.example.smartalarm.viewModels.AlarmActionViewModel;
+import com.example.smartalarm.viewModels.ActionViewModel;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class AddActionActivity extends AppCompatActivity {
     private HashMap<String, AppCompatActivity> mActionDict =  new HashMap<>();
-    private HashMap<NameIdPair, AppCompatActivity> mExistingActionDict =  new HashMap<>();
+    private HashMap<Action, AppCompatActivity> mExistingActionDict =  new HashMap<>();
     private RecyclerView mRecyclerView;
     private RecyclerView mActionRecyclerView;
     private ActionAdapter mAdapter;
     private AlarmListAdapter mActionAdapter;
-    private AlarmActionViewModel mAAVM;
+    private ActionViewModel mAAVM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,15 +51,21 @@ public class AddActionActivity extends AppCompatActivity {
         mActionRecyclerView.setAdapter(mActionAdapter);
         mActionRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        mAAVM = new ViewModelProvider(this).get(AlarmActionViewModel.class);
-        mAAVM.getAlarmNames().observe(this, nameIdPairs -> {
-            mExistingActionDict = new HashMap<>();
-            for(NameIdPair nid : nameIdPairs){
-                mExistingActionDict.put(nid, new ViewAlarmActionActivity());
+        mAAVM = new ViewModelProvider(this).get(ActionViewModel.class);
+        mAAVM.getActions().observe(this, new Observer<List<Action>>() {
+            @Override
+            public void onChanged(List<Action> actions) {
+                for(Action a : actions) {
+                    Log.d("AlarmAction", a.toString());
+                    if (a instanceof AlarmAction){
+                        mExistingActionDict.put(a, new ViewAlarmActionActivity());
+                    } else if (a instanceof CoffeeAction) {
+                        mExistingActionDict.put(a, new ViewCoffeeActionActivity());
+                    }
+                }
+                mActionAdapter.setActions(mExistingActionDict);
             }
-            mActionAdapter.setActions(mExistingActionDict);
         });
     }
-
 }
 

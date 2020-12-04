@@ -2,6 +2,8 @@ package com.example.smartalarm.database;
 
 import android.app.Application;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
@@ -30,6 +32,20 @@ public class ActionRepository {
       mActions = getAllActions();
    }
 
+   public void getAction(String actionClass, Integer id, iGetAction resp){
+      new ActionRepository.AsyncTask().execute(() -> {
+         Action action = null;
+         if (actionClass == "AlarmAction"){
+            action = AD.getAlarmAction(id);
+         } else if (actionClass == "CoffeeAction") {
+            action = CAD.getAction(id);
+         }
+         Action finalAction = action;
+         new Handler(Looper.getMainLooper()).post(() -> resp.response(finalAction));
+      });
+   }
+
+
    public LiveData<List<Action>> getActions(){
       return mActions;
    }
@@ -39,9 +55,9 @@ public class ActionRepository {
    @RequiresApi(api = Build.VERSION_CODES.N)
    private LiveData<List<Action>> getAllActions(){
       MediatorLiveData<List<Action>> ret = new MediatorLiveData<>();
-      LiveData<List<AlarmAction>> alarmActionc = AD.getAllActions();
+      LiveData<List<AlarmAction>> alarmActions = AD.getAllActions();
       LiveData<List<CoffeeAction>> coffeeActions = CAD.getAllActions();
-      ret.addSource(alarmActionc, value -> ret.setValue(value.stream().map(x -> (Action)x).collect(Collectors.toList())));
+      ret.addSource(alarmActions, value -> ret.setValue(value.stream().map(x -> (Action)x).collect(Collectors.toList())));
       ret.addSource(coffeeActions, value -> ret.setValue(value.stream().map(x -> (Action)x).collect(Collectors.toList())));
       return ret;
    }

@@ -3,13 +3,16 @@ package com.example.smartalarm.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.smartalarm.R;
 import com.example.smartalarm.action.Action;
 
@@ -58,6 +61,9 @@ public class ActionListAdapter extends
 
     public void setActions(HashMap<Action, AppCompatActivity> actions){
         mActions = actions;
+//        for (Map.Entry<Action, AppCompatActivity> action : actions.entrySet()){
+//            Log.d(AlarmListAdapter.class.getSimpleName(), action.getKey().getName());
+//        }
         notifyDataSetChanged();
     }
 
@@ -73,9 +79,10 @@ public class ActionListAdapter extends
     @Override
     public void onBindViewHolder(@NonNull ActionViewHolder holder, int position) {
         // Retrieve the data for that position.
-        Action mCurrent = (Action) mActions.keySet().toArray()[position];
+        Action action = (Action) mActions.keySet().toArray()[position];
+        Log.d(ActionListAdapter.class.getSimpleName(), action.toString());
         // Add the data to the view holder.
-        holder.mItemView.setText(mCurrent.getName());
+        holder.mItemView.setText(action.getName());
     }
 
     @Override

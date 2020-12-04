@@ -22,9 +22,9 @@ public interface CoffeeActionDao {
    @Query("SELECT Name, id FROM coffee_action")
    LiveData<List<NameIdPair>> getAllNames();
 
-   @Query("SELECT * FROM alarm_action")
+   @Query("SELECT * FROM coffee_action")
    LiveData<List<CoffeeAction>> getAllActions();
 
    @Query("SELECT * FROM coffee_action WHERE id = :ID")
-   CoffeeAction getCoffeeAction(int ID);
+   CoffeeAction getAction(Integer ID);
 }

@@ -25,5 +25,5 @@ public interface AlarmDao {
    LiveData<List<AlarmAction>> getAllActions();
 
    @Query("SELECT * FROM alarm_action WHERE id = :ID")
-   AlarmAction getAlarmAction(int ID);
+   AlarmAction getAlarmAction(Integer ID);
 }

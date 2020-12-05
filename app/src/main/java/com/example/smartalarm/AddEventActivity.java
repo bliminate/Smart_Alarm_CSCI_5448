@@ -14,6 +14,7 @@ import com.example.smartalarm.action.Action;
 import com.example.smartalarm.clock.MinuteClock;
 import com.example.smartalarm.event.DelayedEvent;
 import com.example.smartalarm.event.Event;
+import com.example.smartalarm.event.EventFactory;
 import com.example.smartalarm.fragment.DatePickerFragment;
 import com.example.smartalarm.fragment.TimePickerFragment;
 import com.example.smartalarm.viewModels.ActionViewModel;
@@ -41,9 +42,11 @@ public class AddEventActivity extends AppCompatActivity
     private EditText mEventTime;
     private Spinner mSpinner;
     private Calendar calendar;
+    private Switch isImmediate;
 
     private List<Action> actions;
     private List<String> actionNames;
+    private List<Action> mEventActions;
     private ActionViewModel mAVM;
 
     @Override
@@ -59,9 +62,10 @@ public class AddEventActivity extends AppCompatActivity
         mEVM = new ViewModelProvider(this).get(EventViewModel.class);
 
         // Read a list of actions from db
-        actions = new ArrayList<>();
         mAVM = new ViewModelProvider(this).get(ActionViewModel.class);
         mEVM = new ViewModelProvider(this).get(EventViewModel.class);
+        actions = new ArrayList<>();
+        mEventActions = new ArrayList<>();
 
         // Set Spinner
         mSpinner = (Spinner) findViewById(R.id.spinner);
@@ -89,11 +93,13 @@ public class AddEventActivity extends AppCompatActivity
         mAVM.getActions().observe(this, new Observer<List<Action>>() {
             @Override
             public void onChanged(List<Action> _actions) {
-                List<String> names = new ArrayList<>();
+                //List<String> names = new ArrayList<>();
                 for (Action action : _actions) {
-                    names.add(action.getName());
+                    actionNames.add(action.getName());
+                    actions.add(action);
                 }
-                adapter.addAll(names);
+
+                //adapter.addAll(_actions);
                 adapter.notifyDataSetChanged();
             }
         });
@@ -106,12 +112,9 @@ public class AddEventActivity extends AppCompatActivity
     public void saveEvent(View view) {
         // Extract All information from the view
         String eventName = mEventName.getText().toString();
-
-        //TODO: logic to create delayed vs immediate event
-        // Create an event
-        Event event = new DelayedEvent();
-        event.setDelay(calendar);
-        event.setName(eventName);
+        Boolean immediate = false; //TODO: add switch to ui// isImmediate.isChecked();
+        //Polymorphism
+        Event event = EventFactory.createEvent(eventName, calendar, immediate, mEventActions);
         event.activateEvent();
 
         // Set info as a single Intent object
@@ -202,7 +205,8 @@ public class AddEventActivity extends AppCompatActivity
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        actionKey = parent.getItemAtPosition(position).toString();
+        //actionKey = parent.getItemAtPosition(position).toString();
+        mEventActions.add(actions.get(position));
     }
 
     @Override

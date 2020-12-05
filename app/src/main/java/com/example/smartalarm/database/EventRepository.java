@@ -71,11 +71,11 @@ public class EventRepository {
          Action a = (Action) l;
          if(a instanceof AlarmAction) {
             ImmediateEventAlarmAction iea = new ImmediateEventAlarmAction(event.getID(), a.getActionID());
-            IEWAAD.insert(iea);
+            new AsyncTask().execute(() -> IEWAAD.insert(iea));
          }
          else if(a instanceof CoffeeAction){
             ImmediateEventCoffeeAction iea = new ImmediateEventCoffeeAction(event.getID(), a.getActionID());
-            IEWCAD.insert(iea);
+            new AsyncTask().execute(() -> IEWCAD.insert(iea));
          }
       }
    }
@@ -85,11 +85,11 @@ public class EventRepository {
          Action a = (Action) l;
          if(a instanceof AlarmAction) {
             DelayedEventAlarmAction dea = new DelayedEventAlarmAction(event.getID(), a.getActionID());
-            DEWAAD.insert(dea);
+            new AsyncTask().execute(() -> DEWAAD.insert(dea));
          }
          else if(a instanceof CoffeeAction){
             DelayedEventCoffeeAction dea = new DelayedEventCoffeeAction(event.getID(), a.getActionID());
-            DEWCAD.insert(dea);
+            new AsyncTask().execute(() -> DEWCAD.insert(dea));
          }
       }
    }
@@ -104,17 +104,25 @@ public class EventRepository {
       LiveData<List<ImmediateEventWithCoffeeActions>> immediateCoffee = IEWCAD.getImmediateEventWithCoffeeActions();
       LiveData<List<DelayedEventWithCoffeeActions>> delayedCoffee = DEWCAD.getDelayedEventWithCoffeeActions();
       //Have all actions subscribe to their respective event
-      for (ImmediateEventWithAlarmActions i : immediateAlarm.getValue()) {
-          i.subscribeActions();
+      if(immediateAlarm.getValue() != null) {
+         for (ImmediateEventWithAlarmActions i : immediateAlarm.getValue()) {
+            i.subscribeActions();
+         }
       }
-      for (DelayedEventWithAlarmActions d : delayedAlarm.getValue()) {
-          d.subscribeActions();
+      if(delayedAlarm.getValue() != null) {
+         for (DelayedEventWithAlarmActions d : delayedAlarm.getValue()) {
+            d.subscribeActions();
+         }
       }
-      for (ImmediateEventWithCoffeeActions i : immediateCoffee.getValue()) {
-         i.subscribeActions();
+      if(immediateCoffee.getValue() != null) {
+         for (ImmediateEventWithCoffeeActions i : immediateCoffee.getValue()) {
+            i.subscribeActions();
+         }
       }
-      for (DelayedEventWithCoffeeActions d : delayedCoffee.getValue()) {
-         d.subscribeActions();
+      if(delayedCoffee.getValue() != null) {
+         for (DelayedEventWithCoffeeActions d : delayedCoffee.getValue()) {
+            d.subscribeActions();
+         }
       }
 
       ret.addSource(immediateAlarm, value -> ret.setValue(value.stream().map(x -> (Event)x.event).collect(Collectors.toList())));

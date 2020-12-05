@@ -2,9 +2,7 @@ package com.example.smartalarm.action;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-
 import com.example.smartalarm.deviceAction.CoffeeMachine;
 
 import java.beans.PropertyChangeEvent;
@@ -12,19 +10,21 @@ import java.io.Serializable;
 
 @Entity(tableName="coffee_action")
 public class CoffeeAction extends Action implements Serializable {
-   public CoffeeAction(Integer ActionID, String name, Integer water, Integer ground){
+   public CoffeeAction(Integer ActionID, String name, Integer water, Integer ground, String url){
       super();
       this.ActionID = ActionID;
       this.name = name;
       this.water = water;
       this.ground = ground;
+      this.url = url;
    }
 
-   public CoffeeAction(String url) {
+   public CoffeeAction(String curl) {
       super();
       name = "";
       water = 0;
       ground = 0;
+      url = curl;
    }
 
 
@@ -97,6 +97,6 @@ public class CoffeeAction extends Action implements Serializable {
    @ColumnInfo(name = "Ground")
    private Integer ground;
 
-   @Ignore
+   @ColumnInfo(name = "CoffeeMachineURL")
    private String url;
 }

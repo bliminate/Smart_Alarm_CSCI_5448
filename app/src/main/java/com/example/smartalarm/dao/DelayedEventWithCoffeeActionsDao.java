@@ -13,6 +13,6 @@ public interface DelayedEventWithCoffeeActionsDao {
    void insert(DelayedEventCoffeeAction delayedEventCoffeeAction);
 
    @Transaction
-   @Query("Select * from immediate_event")
+   @Query("Select * from delayed_event")
    LiveData<List<DelayedEventWithCoffeeActions>> getDelayedEventWithCoffeeActions();
 }

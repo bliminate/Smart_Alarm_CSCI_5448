@@ -13,6 +13,6 @@ public interface DelayedEventWithAlarmActionsDao {
    void insert(DelayedEventAlarmAction delayedEventAlarmAction);
 
    @Transaction
-   @Query("Select * from immediate_event")
+   @Query("Select * from delayed_event")
    public LiveData<List<DelayedEventWithAlarmActions>> getDelayedEventWithAlarmActions();
 }

@@ -5,19 +5,13 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TimePicker;
-
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
 import com.example.smartalarm.action.Action;
+import com.example.smartalarm.clock.MinuteClock;
 import com.example.smartalarm.event.DelayedEvent;
 import com.example.smartalarm.event.Event;
 import com.example.smartalarm.fragment.DatePickerFragment;
@@ -118,6 +112,7 @@ public class AddEventActivity extends AppCompatActivity
         Event event = new DelayedEvent();
         event.setDelay(calendar);
         event.setName(eventName);
+        event.activateEvent();
 
         // Set info as a single Intent object
         Intent replyIntent = new Intent();
@@ -125,6 +120,11 @@ public class AddEventActivity extends AppCompatActivity
 
         // Save it in db
         mEVM.insert(event);
+        if(event instanceof DelayedEvent) {
+            MinuteClock.getInstance().addObserver((DelayedEvent) event);
+        }
+
+        event.activateEvent();
 
         // Return the intent back to the original activity (MainActivity)
         setResult(RESULT_OK, replyIntent);

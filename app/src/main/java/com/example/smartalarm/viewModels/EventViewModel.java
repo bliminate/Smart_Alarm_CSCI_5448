@@ -24,6 +24,7 @@ public class EventViewModel extends AndroidViewModel {
       repo = new EventRepository(application);
       mEvents = repo.getEvents();
       clock = MinuteClock.getInstance();
+      clock.startClock();
    }
 
    public void insert(Event event){

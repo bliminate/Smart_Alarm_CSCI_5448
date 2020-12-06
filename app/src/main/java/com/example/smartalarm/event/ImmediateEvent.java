@@ -8,6 +8,7 @@ import com.example.smartalarm.database.CalendarTypeConverter;
 
 import java.util.Calendar;
 
+//Immediate Objects are subjects in the observer pattern
 @Entity(tableName = "immediate_event")
 public class ImmediateEvent extends Event {
    public ImmediateEvent(){

@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.smartalarm.action.CoffeeAction;
 import com.example.smartalarm.viewModels.ActionViewModel;
 
+// Controller of the MVC Pattern
 public class AddCoffeeActionActivity extends AppCompatActivity {
     private EditText mName;
     private SeekBar mWaterAmount;

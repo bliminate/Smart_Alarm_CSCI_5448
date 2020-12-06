@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-
+// Controller of the MVC Pattern
 public class AddEventActivity extends AppCompatActivity
     implements DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener,

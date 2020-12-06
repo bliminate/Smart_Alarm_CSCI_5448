@@ -7,6 +7,7 @@ import com.example.smartalarm.database.ImmediateEventWithCoffeeActions;
 
 import java.util.List;
 
+// Data Access Objects are a part of the ORM
 @Dao
 public interface ImmediateEventWithCoffeeActionsDao {
    @Insert(onConflict = OnConflictStrategy.IGNORE)

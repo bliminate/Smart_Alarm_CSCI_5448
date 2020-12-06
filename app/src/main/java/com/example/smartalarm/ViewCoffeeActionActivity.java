@@ -13,6 +13,7 @@ import com.example.smartalarm.action.CoffeeAction;
 import com.example.smartalarm.database.iGetAction;
 import com.example.smartalarm.viewModels.ActionViewModel;
 
+// Controller of the MVC Pattern
 public class ViewCoffeeActionActivity extends AppCompatActivity implements iGetAction {
     private int ID;
     private EditText mName;

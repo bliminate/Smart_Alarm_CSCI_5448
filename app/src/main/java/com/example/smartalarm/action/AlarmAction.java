@@ -27,6 +27,9 @@ public class AlarmAction extends Action implements Serializable {
 
    // We dependency inject an instance of the sound and vibrate
    // system utilities.
+   // We also use the Strategy pattern to abstract
+   // out the interface between the device for the sound
+   // and vibrate functionality.
    public AlarmAction(iVibrate v, iSound s){
       super();
       vibrate = false;
@@ -80,6 +83,7 @@ public class AlarmAction extends Action implements Serializable {
       return name;
    }
 
+   // Implementation for the observer pattern
    @Override
    public void propertyChange(PropertyChangeEvent evt) {
       if(evt.getPropertyName() == "action"){

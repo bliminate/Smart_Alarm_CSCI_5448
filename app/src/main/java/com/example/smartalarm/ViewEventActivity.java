@@ -16,7 +16,7 @@ import com.example.smartalarm.viewModels.EventViewModel;
 
 import java.util.Calendar;
 
-
+// Controller of the MVC Pattern
 public class ViewEventActivity extends AppCompatActivity
     implements DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener,

@@ -16,6 +16,7 @@ import com.example.smartalarm.viewModels.EventViewModel;
 import java.util.HashMap;
 import java.util.List;
 
+// Controller of the MVC Pattern
 public class MainActivity extends AppCompatActivity {
    private static final String LOG_TAG = MainActivity.class.getSimpleName();
    public static final int TEXT_REQUEST = 1;

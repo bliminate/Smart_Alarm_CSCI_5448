@@ -8,6 +8,8 @@ import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Calendar;
 
+// Event base class is an implement of a subject in the observer pattern
+// Events are a model in the MVC pattern
 public abstract class Event implements iSubject, Serializable {
    public Event(){
       super();
@@ -32,6 +34,7 @@ public abstract class Event implements iSubject, Serializable {
 
    public abstract void setCurrentState(String s);
 
+   //Shared implementation to make events observable
    @Override
    public void addObserver(PropertyChangeListener observer){
       subject.addPropertyChangeListener(observer);

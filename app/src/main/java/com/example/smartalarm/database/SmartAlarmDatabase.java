@@ -18,7 +18,7 @@ import com.example.smartalarm.event.ImmediateEvent;
 @Database(entities = {AlarmAction.class, CoffeeAction.class, DelayedEvent.class,
       ImmediateEvent.class, ImmediateEventAlarmAction.class, DelayedEventAlarmAction.class,
       ImmediateEventCoffeeAction.class, DelayedEventCoffeeAction.class},
-      version = 6, exportSchema = false)
+      version = 7, exportSchema = false)
 @TypeConverters({CalendarTypeConverter.class})
 public abstract class SmartAlarmDatabase extends RoomDatabase {
    public abstract AlarmDao alarmDao();

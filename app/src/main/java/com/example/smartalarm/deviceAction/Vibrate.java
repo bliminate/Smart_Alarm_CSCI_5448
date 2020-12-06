@@ -8,6 +8,7 @@ import androidx.annotation.RequiresApi;
 
 import static android.content.Context.VIBRATOR_SERVICE;
 
+// Class implementation of strategy pattern
 public class Vibrate implements iVibrate{
    private Vibrate(Context ctx){
       super();

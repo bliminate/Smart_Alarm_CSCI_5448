@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.stream.Collectors;
 
+// Repository acts as another layer in the ORM to add more abstraction between
+// the Dao's and the table schema and the objects.
 public class EventRepository {
    private final DelayedEventDao DED;
    private final ImmediateEventDao IED;

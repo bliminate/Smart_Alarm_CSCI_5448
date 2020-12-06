@@ -11,6 +11,8 @@ import com.example.smartalarm.dataStructures.NameIdPair;
 import java.util.List;
 import java.util.concurrent.Executor;
 
+// Repository acts as another layer in the ORM to add more abstraction between
+// the Dao's and the table schema and the objects.
 public class AlarmRepository {
    private AlarmDao AD;
    private LiveData<List<NameIdPair>> mAlarmNames;

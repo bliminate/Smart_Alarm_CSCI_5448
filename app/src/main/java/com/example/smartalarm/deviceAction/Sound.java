@@ -3,6 +3,7 @@ package com.example.smartalarm.deviceAction;
 import android.content.Context;
 import android.media.MediaPlayer;
 
+// Class implementation of strategy pattern
 public class Sound implements iSound {
    private Sound(Context ctx){
       super();

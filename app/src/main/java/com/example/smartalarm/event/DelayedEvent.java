@@ -10,6 +10,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Calendar;
 
+// Delayed Events are both subjects and observers of the observer pattern
+// They observe the clock
 @Entity(tableName = "delayed_event")
 public class DelayedEvent extends Event implements PropertyChangeListener {
    public DelayedEvent(){
@@ -62,6 +64,7 @@ public class DelayedEvent extends Event implements PropertyChangeListener {
       return delay;
    }
 
+   // Implementation to be an observer
    @Override
    public void propertyChange(PropertyChangeEvent evt) {
       if(evt.getPropertyName().contains("clock")){

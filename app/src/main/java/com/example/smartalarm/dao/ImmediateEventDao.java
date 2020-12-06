@@ -10,6 +10,7 @@ import com.example.smartalarm.event.ImmediateEvent;
 
 import java.util.List;
 
+// Data Access Objects are a part of the ORM
 @Dao
 public interface ImmediateEventDao {
    @Insert

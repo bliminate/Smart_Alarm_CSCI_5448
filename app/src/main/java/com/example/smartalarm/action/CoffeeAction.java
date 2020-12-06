@@ -27,7 +27,7 @@ public class CoffeeAction extends Action implements Serializable {
       url = curl;
    }
 
-
+   // Strategy pattern to abstract out the interface with the coffee machine
    @Override
    public void executeAction() {
       CoffeeMachine coffeeMachine = new CoffeeMachine(water, ground, url);
@@ -53,6 +53,7 @@ public class CoffeeAction extends Action implements Serializable {
       return name;
    }
 
+   // Implementation for the observer pattern
    @Override
    public void propertyChange(PropertyChangeEvent evt) {
       if(evt.getPropertyName() == "action"){

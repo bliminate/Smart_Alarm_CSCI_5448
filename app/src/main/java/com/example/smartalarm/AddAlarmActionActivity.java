@@ -22,6 +22,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+// Controller of the MVC Pattern
 public class AddAlarmActionActivity extends AppCompatActivity
  implements AdapterView.OnItemSelectedListener {
    @Override

@@ -14,6 +14,7 @@ import com.example.smartalarm.viewModels.ActionViewModel;
 
 import java.util.HashMap;
 
+// Controller of the MVC Pattern
 public class AddActionActivity extends AppCompatActivity {
     private HashMap<String, AppCompatActivity> mActionDict =  new HashMap<>();
     private HashMap<Action, AppCompatActivity> mExistingActionDict =  new HashMap<>();

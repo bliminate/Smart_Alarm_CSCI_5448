@@ -11,6 +11,7 @@ import com.example.smartalarm.dataStructures.NameIdPair;
 
 import java.util.List;
 
+// Data Access Objects are a part of the ORM
 @Dao
 public interface CoffeeActionDao {
    @Insert

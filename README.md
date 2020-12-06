@@ -6,7 +6,8 @@ The sounds for the application retrieved from: https://material.io/design/sound/
 
 
 # Final Report
-https://docs.google.com/document/d/1YeQifN0PRbBd3b8zPAqscUMMldkw6mcFPLDIdleOuAk/edit#
+https://docs.google.com/document/d/1YeQifN0PRbBd3b8zPAqscUMMldkw6mcFPLDIdleOuAk/edit?usp=sharing
+
 
 # Final Code
 Clone this library and open it with Android Studio. 
@@ -17,4 +18,4 @@ git clone git@github.com:bliminate/Smart_Alarm_CSCI_5448.git
 ```
 
 # Demonstration Video
-TBD
+https://drive.google.com/file/d/1Ecuz7d7tmbFxygf4VrtNnD59HmXa-Sbl/view?usp=sharing

@@ -1,14 +1,42 @@
 package com.example.smartalarm.event;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+import com.example.smartalarm.database.CalendarTypeConverter;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Calendar;
 
+// Delayed Events are both subjects and observers of the observer pattern
+// They observe the clock
+@Entity(tableName = "delayed_event")
 public class DelayedEvent extends Event implements PropertyChangeListener {
-   DelayedEvent(){
+   public DelayedEvent(){
       super();
       currentState = "deactivated";
    }
+
+   public DelayedEvent(int id, String state, String name, Calendar delay){
+      super();
+      this.ID = id;
+      this.currentState = state;
+      this.name = name;
+      this.delay = delay;
+   }
+
+   @Override
+   public void setName(String n){ name = n; }
+
+   @Override
+   public String getName(){ return name; }
+
+   @Override
+   public int getID(){ return ID; }
+
+   public void setID(int id){ ID = id; }
 
    @Override
    public void activateEvent() {
@@ -24,6 +52,9 @@ public class DelayedEvent extends Event implements PropertyChangeListener {
    }
 
    @Override
+   public String getCurrentState(){ return currentState; };
+
+   @Override
    public void setDelay(Calendar c) {
       delay = c;
    }
@@ -33,6 +64,7 @@ public class DelayedEvent extends Event implements PropertyChangeListener {
       return delay;
    }
 
+   // Implementation to be an observer
    @Override
    public void propertyChange(PropertyChangeEvent evt) {
       if(evt.getPropertyName().contains("clock")){
@@ -43,6 +75,11 @@ public class DelayedEvent extends Event implements PropertyChangeListener {
       }
    }
 
+   @Override
+   public void setCurrentState(String s) {
+      currentState = s;
+   }
+
    protected void checkDelay(Calendar currentTime){
       if(currentTime.after(delay)){
          String oldState = currentState;
@@ -51,6 +88,14 @@ public class DelayedEvent extends Event implements PropertyChangeListener {
       }
    }
 
+   @PrimaryKey(autoGenerate = true)
+   @ColumnInfo(name = "DelayedEventID")
+   private int ID;
+   @ColumnInfo(name = "Name")
+   private String name;
+   @ColumnInfo(name = "State")
    private String currentState;
+   @ColumnInfo(name = "Delay")
+   @TypeConverters({CalendarTypeConverter.class})
    private Calendar delay;
 }

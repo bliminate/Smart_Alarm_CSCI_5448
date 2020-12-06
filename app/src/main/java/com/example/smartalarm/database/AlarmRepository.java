@@ -11,6 +11,8 @@ import com.example.smartalarm.dataStructures.NameIdPair;
 import java.util.List;
 import java.util.concurrent.Executor;
 
+// Repository acts as another layer in the ORM to add more abstraction between
+// the Dao's and the table schema and the objects.
 public class AlarmRepository {
    private AlarmDao AD;
    private LiveData<List<NameIdPair>> mAlarmNames;
@@ -25,18 +27,10 @@ public class AlarmRepository {
       return mAlarmNames;
    }
 
-   public void getAlarm(int id, iGetAlarmAction resp){
-      new AsyncTask().execute(new Runnable() {
-         @Override
-         public void run() {
-            AlarmAction alarm = AD.getAlarmAction(id);
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-               @Override
-               public void run() {
-                  resp.response(alarm);
-               }
-            });
-         }
+   public void getAlarm(int id, iGetAction resp){
+      new AsyncTask().execute(() -> {
+         AlarmAction alarm = AD.getAlarmAction(id);
+         new Handler(Looper.getMainLooper()).post(() -> resp.response(alarm));
       });
    }
 
@@ -50,7 +44,7 @@ public class AlarmRepository {
    public void update(AlarmAction alarm){
       new AsyncTask().execute(new Runnable(){
          @Override
-         public void run(){AD.updateAlarm(alarm);}
+         public void run(){AD.update(alarm);}
       });
    }
 

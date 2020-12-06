@@ -8,14 +8,16 @@ import com.example.smartalarm.deviceAction.iSound;
 import com.example.smartalarm.deviceAction.iVibrate;
 
 import java.beans.PropertyChangeEvent;
+import java.io.Serializable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Entity(tableName="alarm_action")
-public class AlarmAction extends Action {
-   public AlarmAction(int ID, String name, Boolean vibrate, Integer soundResource,
+public class AlarmAction extends Action implements Serializable {
+   public AlarmAction(Integer ActionID, String name, Boolean vibrate, Integer soundResource,
                       Integer volume, Integer vibrateResource){
-      this.ID = ID;
+      super();
+      this.ActionID = ActionID;
       this.name = name;
       this.vibrate = vibrate;
       this.soundResource = soundResource;
@@ -25,6 +27,9 @@ public class AlarmAction extends Action {
 
    // We dependency inject an instance of the sound and vibrate
    // system utilities.
+   // We also use the Strategy pattern to abstract
+   // out the interface between the device for the sound
+   // and vibrate functionality.
    public AlarmAction(iVibrate v, iSound s){
       super();
       vibrate = false;
@@ -78,6 +83,7 @@ public class AlarmAction extends Action {
       return name;
    }
 
+   // Implementation for the observer pattern
    @Override
    public void propertyChange(PropertyChangeEvent evt) {
       if(evt.getPropertyName() == "action"){
@@ -101,8 +107,9 @@ public class AlarmAction extends Action {
       return soundResource;
    }
 
-   public int getID(){
-      return ID;
+   @Override
+   public Integer getActionID(){
+      return ActionID;
    }
 
    public Integer getVibrateResource(){
@@ -127,7 +134,8 @@ public class AlarmAction extends Action {
    }
 
    @PrimaryKey(autoGenerate = true)
-   private int ID;
+   @ColumnInfo(name = "ActionID")
+   private Integer ActionID;
    @ColumnInfo(name = "Name")
    private String name;
    @ColumnInfo(name = "Vibrate")

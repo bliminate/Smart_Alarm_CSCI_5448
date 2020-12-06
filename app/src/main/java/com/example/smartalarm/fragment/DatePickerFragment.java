@@ -1,11 +1,9 @@
-package com.example.smartalarm;
+package com.example.smartalarm.fragment;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.widget.DatePicker;
-import android.widget.EditText;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
@@ -13,6 +11,10 @@ import java.util.Calendar;
 
 public class DatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
+    public DatePickerFragment(DatePickerDialog.OnDateSetListener l){
+        super();
+        listener = l;
+    }
 
     @NonNull
     @Override
@@ -24,9 +26,11 @@ public class DatePickerFragment extends DialogFragment
         int day = c.get(Calendar.DAY_OF_MONTH);
 
         // Create a new instance of DatePickerDialog and return it
-        return new DatePickerDialog(getActivity(), (AddEventActivity)getActivity(), year, month, day);
+        return new DatePickerDialog(getActivity(), listener, year, month, day);
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
     }
+
+    private DatePickerDialog.OnDateSetListener listener;
 }

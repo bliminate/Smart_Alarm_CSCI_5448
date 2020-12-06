@@ -1,12 +1,16 @@
 package com.example.smartalarm.event;
 
+import androidx.room.Ignore;
 import com.example.smartalarm.observer.iSubject;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.Serializable;
 import java.util.Calendar;
 
-public abstract class Event implements iSubject {
+// Event base class is an implement of a subject in the observer pattern
+// Events are a model in the MVC pattern
+public abstract class Event implements iSubject, Serializable {
    public Event(){
       super();
       subject = new PropertyChangeSupport(this);
@@ -16,18 +20,21 @@ public abstract class Event implements iSubject {
 
    public abstract void deactivateEvent();
 
+   public abstract String getCurrentState();
+
    public abstract void setDelay(Calendar c);
 
    public abstract Calendar getDelay();
 
-   public void setName(String n){
-      name = n;
-   }
+   public abstract void setName(String n);
 
-   public String getName(){
-      return name;
-   }
+   public abstract String getName();
 
+   public abstract int getID();
+
+   public abstract void setCurrentState(String s);
+
+   //Shared implementation to make events observable
    @Override
    public void addObserver(PropertyChangeListener observer){
       subject.addPropertyChangeListener(observer);
@@ -48,7 +55,7 @@ public abstract class Event implements iSubject {
       subject.firePropertyChange("action", oldObj, newObj);
    }
 
+   @Ignore
    private PropertyChangeSupport subject;
-   private String name;
-   private String currentState;
+
 }

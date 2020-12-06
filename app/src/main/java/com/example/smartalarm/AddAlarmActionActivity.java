@@ -2,19 +2,27 @@ package com.example.smartalarm;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.SeekBar;
+import android.widget.Spinner;
+import android.widget.Switch;
+
 import androidx.annotation.RawRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+
 import com.example.smartalarm.action.AlarmAction;
 import com.example.smartalarm.deviceAction.Sound;
 import com.example.smartalarm.deviceAction.Vibrate;
-import com.example.smartalarm.viewModels.AlarmActionViewModel;
+import com.example.smartalarm.viewModels.ActionViewModel;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+// Controller of the MVC Pattern
 public class AddAlarmActionActivity extends AppCompatActivity
  implements AdapterView.OnItemSelectedListener {
    @Override
@@ -28,7 +36,7 @@ public class AddAlarmActionActivity extends AppCompatActivity
       mVolume = findViewById(R.id.VolumeLevelSeekBar);
       mAlarmSound = findViewById(R.id.AlarmSoundSpinner);
       mVibrate = findViewById(R.id.vibrateSwitch);
-      mAAVM = new ViewModelProvider(this).get(AlarmActionViewModel.class);
+      mAVM = new ViewModelProvider(this).get(ActionViewModel.class);
 
       if(mAlarmSound != null){
          mAlarmSound.setOnItemSelectedListener(this);
@@ -73,7 +81,11 @@ public class AddAlarmActionActivity extends AppCompatActivity
       mAlarm.toggleVibrate(mVibrate.isChecked());
       mAlarm.setVolume(volume);
       // TODO: Store in db
-      mAAVM.insert(mAlarm);
+      mAVM.insert(mAlarm);
+      finish();
+   }
+
+   public void goBack(View view) {
       finish();
    }
 
@@ -83,5 +95,5 @@ public class AddAlarmActionActivity extends AppCompatActivity
    private Switch mVibrate;
    private Map<String, Integer> mRawResourceMap;
    private AlarmAction mAlarm;
-   private AlarmActionViewModel mAAVM;
+   private ActionViewModel mAVM;
 }

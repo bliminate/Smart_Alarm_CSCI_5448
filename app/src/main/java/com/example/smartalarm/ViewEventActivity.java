@@ -8,46 +8,31 @@ import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import com.example.smartalarm.action.Action;
-import com.example.smartalarm.clock.MinuteClock;
-import com.example.smartalarm.event.DelayedEvent;
 import com.example.smartalarm.event.Event;
-import com.example.smartalarm.event.EventFactory;
 import com.example.smartalarm.fragment.DatePickerFragment;
 import com.example.smartalarm.fragment.TimePickerFragment;
-import com.example.smartalarm.viewModels.ActionViewModel;
 import com.example.smartalarm.viewModels.EventViewModel;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 // Controller of the MVC Pattern
-public class AddEventActivity extends AppCompatActivity
+public class ViewEventActivity extends AppCompatActivity
     implements DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener,
         AdapterView.OnItemSelectedListener {
 
-    private static final String LOG_TAG = AddEventActivity.class.getSimpleName();
+    private static final String LOG_TAG = ViewEventActivity.class.getSimpleName();
     public static final String CREATED_EVENT = "CREATED_EVENT";
     public static final int TEXT_REQUEST = 1;
-    private EventViewModel mEVM;
     private String actionKey;
-
+    private EventViewModel mEVM;
     private EditText mEventName;
     private EditText mEventDate;
     private EditText mEventTime;
     private Spinner mSpinner;
     private Calendar calendar;
-    private Switch isImmediate;
-
-    private List<Action> actions;
-    private List<String> actionNames;
-    private List<Action> mEventActions;
-    private ActionViewModel mAVM;
+    private Event mEvent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,76 +46,34 @@ public class AddEventActivity extends AppCompatActivity
         mEventTime = findViewById(R.id.editEventTime);
         mEVM = new ViewModelProvider(this).get(EventViewModel.class);
 
-        // Read a list of actions from db
-        mAVM = new ViewModelProvider(this).get(ActionViewModel.class);
-        mEVM = new ViewModelProvider(this).get(EventViewModel.class);
-        actions = new ArrayList<>();
-        mEventActions = new ArrayList<>();
-
         // Set Spinner
         mSpinner = (Spinner) findViewById(R.id.spinner);
         if (mSpinner != null) {
             mSpinner.setOnItemSelectedListener(this);
         }
 
-        actionNames = new ArrayList<>();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_spinner_item,
-                actionNames);
+        loadSpinnerData();
 
-        // Specify the layout to use when the list of choices appears.
-        adapter.setDropDownViewResource
-                (android.R.layout.simple_spinner_dropdown_item);
-        mSpinner.setAdapter(adapter);
+        // Set the event data
+        mEvent = (Event) getIntent().getSerializableExtra("event");
+        mEventName.setText(mEvent.getName());
 
-        if (mSpinner != null) {
-            mSpinner.setAdapter(adapter);
-        }
-
-        // This may not retrieve the updated data
-        // https://stackoverflow.com/questions/59350020/populate-spinner-from-livedata-room-database
-        mAVM.getActions().observe(this, new Observer<List<Action>>() {
-            @Override
-            public void onChanged(List<Action> _actions) {
-                //List<String> names = new ArrayList<>();
-                for (Action action : _actions) {
-                    actionNames.add(action.getName());
-                    actions.add(action);
-                }
-
-                //adapter.addAll(_actions);
-                adapter.notifyDataSetChanged();
-            }
-        });
-
-
-//        // Load action names onto the spinner object
-//        loadSpinnerData();
+        Calendar c = mEvent.getDelay();
+        mEventDate.setText("" + c.DAY_OF_MONTH + "/" + c.MONTH + "/" + c.YEAR);
+        mEventTime.setText("" + c.HOUR_OF_DAY + ":" + c.MINUTE);
     }
 
     public void saveEvent(View view) {
         // Extract All information from the view
         String eventName = mEventName.getText().toString();
-        Boolean immediate = false; //TODO: add switch to ui// isImmediate.isChecked();
-        //Polymorphism
-        Event event = EventFactory.createEvent(eventName, calendar, immediate, mEventActions);
-        event.activateEvent();
-
+        mEvent.setName(eventName);
+        mEVM.update(mEvent);
         // Set info as a single Intent object
-        Intent replyIntent = new Intent();
-        replyIntent.putExtra(CREATED_EVENT, (Serializable) event);
-
-        // Save it in db
-        mEVM.insert(event);
-        if(event instanceof DelayedEvent) {
-            MinuteClock.getInstance().addObserver((DelayedEvent) event);
-        }
-
-        event.activateEvent();
+        //Intent replyIntent = new Intent();
+        //replyIntent.putExtra(CREATED_EVENT, (Serializable) mEvent);
 
         // Return the intent back to the original activity (MainActivity)
-        setResult(RESULT_OK, replyIntent);
+        //setResult(RESULT_OK, replyIntent);
         finish();
     }
 
@@ -150,15 +93,10 @@ public class AddEventActivity extends AppCompatActivity
     private void loadSpinnerData() {
         // Create an ArrayAdapter using the string array and default spinner
         // layout.
-        List<String> actionNames = new ArrayList<>();
-        for (Action action : actions) {
-            actionNames.add(action.getName());
-        }
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this,
-                android.R.layout.simple_spinner_item,
-                actionNames);
+                R.array.labels_array,
+                android.R.layout.simple_spinner_item);
 
         // Specify the layout to use when the list of choices appears.
         adapter.setDropDownViewResource
@@ -192,6 +130,7 @@ public class AddEventActivity extends AppCompatActivity
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         mEventDate.setText("" + dayOfMonth + "/" + (month + 1) + "/" + year);
+        mEvent.setDelay(calendar);
     }
 
     @Override
@@ -201,12 +140,12 @@ public class AddEventActivity extends AppCompatActivity
         String m = "" + minute;
         if(minute < 10){ m = "0" + m; }
         mEventTime.setText("" + hourOfDay + ":" + m);
+        mEvent.setDelay(calendar);
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        //actionKey = parent.getItemAtPosition(position).toString();
-        mEventActions.add(actions.get(position));
+        actionKey = parent.getItemAtPosition(position).toString();
     }
 
     @Override

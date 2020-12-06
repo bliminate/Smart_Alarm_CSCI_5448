@@ -1,12 +1,31 @@
 package com.example.smartalarm.event;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+import com.example.smartalarm.database.CalendarTypeConverter;
+
 import java.util.Calendar;
 
+//Immediate Objects are subjects in the observer pattern
+@Entity(tableName = "immediate_event")
 public class ImmediateEvent extends Event {
-   ImmediateEvent(){
+   public ImmediateEvent(){
       super();
       currentState = "deactivated";
    }
+
+   @Override
+   public void setName(String n){ name = n; }
+
+   @Override
+   public String getName(){ return name; }
+
+   @Override
+   public int getID(){ return ID; }
+
+   public void setID(int id){ ID = id; }
 
    @Override
    public void activateEvent() {
@@ -23,6 +42,9 @@ public class ImmediateEvent extends Event {
    }
 
    @Override
+   public String getCurrentState(){ return currentState; };
+
+   @Override
    public void setDelay(Calendar c) {
       delay = Calendar.getInstance();
    }
@@ -32,7 +54,19 @@ public class ImmediateEvent extends Event {
       return delay;
    }
 
-   private String currentState;
-   private Calendar delay;
+   @Override
+   public void setCurrentState(String s) {
+      currentState = s;
+   }
 
+   @PrimaryKey(autoGenerate = true)
+   @ColumnInfo(name = "ImmediateEventID")
+   private int ID;
+   @ColumnInfo(name = "Name")
+   private String name;
+   @ColumnInfo(name = "State")
+   private String currentState;
+   @ColumnInfo(name = "Delay")
+   @TypeConverters({CalendarTypeConverter.class})
+   private Calendar delay;
 }

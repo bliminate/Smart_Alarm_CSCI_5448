@@ -1,31 +1,36 @@
-package com.example.smartalarm;
+package com.example.smartalarm.adapter;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.smartalarm.dataStructures.NameIdPair;
 
+import com.example.smartalarm.R;
+import com.example.smartalarm.action.Action;
+
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class AlarmListAdapter extends
-        RecyclerView.Adapter<AlarmListAdapter.ActionViewHolder> {
+public class ActionListAdapter extends
+        RecyclerView.Adapter<ActionListAdapter.ActionViewHolder> {
 
     private LayoutInflater mInflater;
-    private HashMap<NameIdPair, AppCompatActivity> mActions;
+    private HashMap<Action, AppCompatActivity> mActions;
     private Context mContext;
 
     public class ActionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final TextView mItemView;
-        final AlarmListAdapter mAdapter;
+        final ActionListAdapter mAdapter;
 
-        public ActionViewHolder(@NonNull View itemView, AlarmListAdapter adapter) {
+        public ActionViewHolder(@NonNull View itemView, ActionListAdapter adapter) {
             super(itemView);
             mItemView = itemView.findViewById(R.id.action);
             mAdapter = adapter;
@@ -40,22 +45,25 @@ public class AlarmListAdapter extends
             //Add ID to intent
             // https://stackoverflow.com/questions/50103671/pass-values-from-recyclerview-to-view-it-in-activity
             // Retrieve the data for that position.
-            NameIdPair nPair = (NameIdPair) mActions.keySet().toArray()[itemPosition];
-            intent.putExtra("ID", nPair.ID);
+            Action action = (Action) mActions.keySet().toArray()[itemPosition];
+            intent.putExtra("action", (Serializable) action);
             mAdapter.notifyDataSetChanged();
             mContext.startActivity(intent);
             ((Activity) mContext).finish();
         }
     }
 
-    public AlarmListAdapter(Context context, HashMap<NameIdPair, AppCompatActivity> actions) {
+    public ActionListAdapter(Context context, HashMap<Action, AppCompatActivity> actions) {
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
         this.mActions = actions;
     }
 
-    public void setActions(HashMap<NameIdPair, AppCompatActivity> actions){
+    public void setActions(HashMap<Action, AppCompatActivity> actions){
         mActions = actions;
+//        for (Map.Entry<Action, AppCompatActivity> action : actions.entrySet()){
+//            Log.d(AlarmListAdapter.class.getSimpleName(), action.getKey().getName());
+//        }
         notifyDataSetChanged();
     }
 
@@ -71,9 +79,10 @@ public class AlarmListAdapter extends
     @Override
     public void onBindViewHolder(@NonNull ActionViewHolder holder, int position) {
         // Retrieve the data for that position.
-        NameIdPair mCurrent = (NameIdPair) mActions.keySet().toArray()[position];
+        Action action = (Action) mActions.keySet().toArray()[position];
+        Log.d(ActionListAdapter.class.getSimpleName(), action.toString());
         // Add the data to the view holder.
-        holder.mItemView.setText(mCurrent.Name);
+        holder.mItemView.setText(action.getName());
     }
 
     @Override

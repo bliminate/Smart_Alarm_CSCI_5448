@@ -10,6 +10,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+// Minute Clock is a singleton class
 public class MinuteClock implements iSubject {
    private MinuteClock(){
       super();

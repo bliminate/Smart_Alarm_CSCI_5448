@@ -1,4 +1,4 @@
-package com.example.smartalarm;
+package com.example.smartalarm.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,10 +12,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.smartalarm.R;
+
 import java.util.HashMap;
 
-public class ActionListAdapter extends
-        RecyclerView.Adapter<ActionListAdapter.ActionViewHolder> {
+public class ActionAdapter extends
+        RecyclerView.Adapter<ActionAdapter.ActionViewHolder> {
 
     private LayoutInflater mInflater;
     private HashMap<String, AppCompatActivity> mActions;
@@ -23,9 +25,9 @@ public class ActionListAdapter extends
 
     public class ActionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final TextView mItemView;
-        final ActionListAdapter mAdapter;
+        final ActionAdapter mAdapter;
 
-        public ActionViewHolder(@NonNull View itemView, ActionListAdapter adapter) {
+        public ActionViewHolder(@NonNull View itemView, ActionAdapter adapter) {
             super(itemView);
             mItemView = itemView.findViewById(R.id.action);
             mAdapter = adapter;
@@ -43,7 +45,7 @@ public class ActionListAdapter extends
         }
     }
 
-    public ActionListAdapter(Context context, HashMap<String, AppCompatActivity> actions) {
+    public ActionAdapter(Context context, HashMap<String, AppCompatActivity> actions) {
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
         this.mActions = actions;
@@ -66,9 +68,9 @@ public class ActionListAdapter extends
     @Override
     public void onBindViewHolder(@NonNull ActionViewHolder holder, int position) {
         // Retrieve the data for that position.
-        String mCurrent = (String) mActions.keySet().toArray()[position];
+        String actionName = (String) mActions.keySet().toArray()[position];
         // Add the data to the view holder.
-        holder.mItemView.setText(mCurrent);
+        holder.mItemView.setText(actionName);
     }
 
     @Override

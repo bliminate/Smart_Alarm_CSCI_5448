@@ -1,34 +1,44 @@
 package com.example.smartalarm;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.example.smartalarm.adapter.EventAdapter;
+import com.example.smartalarm.event.Event;
+import com.example.smartalarm.viewModels.EventViewModel;
 
-import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
+// Controller of the MVC Pattern
 public class MainActivity extends AppCompatActivity {
    private static final String LOG_TAG = MainActivity.class.getSimpleName();
    public static final int TEXT_REQUEST = 1;
    private RecyclerView mEventRecyclerView;
-   private List<Event> events = new ArrayList<>();
-   private ConcreteEventListAdapter mEventListAdapter;
+   private LiveData<List<Event>> events;
+   private EventViewModel mEVM;
+   private HashMap<Event, AppCompatActivity> mEventDict =  new HashMap<>();
+   private EventAdapter mEventAdapter;
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_main);
 
-      // TODO: Access db to get list of actions and events
-      events.add(new Event("testEvent1", Calendar.getInstance(), "action1"));
-      events.add(new Event("testEvent2", Calendar.getInstance(), "action2"));
-      events.add(new Event("testEvent3", Calendar.getInstance(), "action3"));
+      mEVM = new ViewModelProvider(this).get(EventViewModel.class);
+      mEVM.getEvents().observe(this, Events -> {
+         mEventDict = new HashMap<>();
+         for(Event e : Events){
+            mEventDict.put(e, new ViewEventActivity());
+         }
+         mEventAdapter.setEvents(mEventDict);
+      });
 
       setEventRecyclerView();
    }
@@ -38,9 +48,9 @@ public class MainActivity extends AppCompatActivity {
       // Create recycler view.
       mEventRecyclerView = findViewById(R.id.eventRecyclerView);
       // Create an adapter and supply the data to be displayed.
-      mEventListAdapter = new ConcreteEventListAdapter(this, events);
+      mEventAdapter = new EventAdapter(this, mEventDict);
       // Connect the adapter with the recycler view.
-      mEventRecyclerView.setAdapter(mEventListAdapter);
+      mEventRecyclerView.setAdapter(mEventAdapter);
       // Give the recycler view a default layout manager.
       mEventRecyclerView.setLayoutManager(new LinearLayoutManager(this));
    };

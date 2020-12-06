@@ -1,16 +1,33 @@
 package com.example.smartalarm.action;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 import com.example.smartalarm.deviceAction.CoffeeMachine;
 
 import java.beans.PropertyChangeEvent;
 import java.io.Serializable;
 
+@Entity(tableName="coffee_action")
 public class CoffeeAction extends Action implements Serializable {
-   public CoffeeAction(){
+   public CoffeeAction(Integer ActionID, String name, Integer water, Integer ground, String url){
       super();
-      coffeeMachine = new CoffeeMachine();
+      this.ActionID = ActionID;
+      this.name = name;
+      this.water = water;
+      this.ground = ground;
+      this.url = url;
    }
 
+   public CoffeeAction(String curl) {
+      super();
+      name = "";
+      water = 0;
+      ground = 0;
+      url = curl;
+   }
+
+   // Strategy pattern to abstract out the interface with the coffee machine
    @Override
    public void executeAction() {
       CoffeeMachine coffeeMachine = new CoffeeMachine(water, ground, url);
@@ -19,6 +36,11 @@ public class CoffeeAction extends Action implements Serializable {
 
    @Override
    public void stopAction() {
+   }
+
+   @Override
+   public Integer getActionID(){
+      return ActionID;
    }
 
    @Override
@@ -31,15 +53,12 @@ public class CoffeeAction extends Action implements Serializable {
       return name;
    }
 
+   // Implementation for the observer pattern
    @Override
    public void propertyChange(PropertyChangeEvent evt) {
       if(evt.getPropertyName() == "action"){
          executeAction();
       }
-   }
-
-   public CoffeeMachine getCoffeeMachine() {
-      return coffeeMachine;
    }
 
    public void setUrl(String url) {
@@ -50,26 +69,35 @@ public class CoffeeAction extends Action implements Serializable {
       return url;
    }
 
-
-   public void setWater(int water){
+   public void setWater(Integer water){
       this.water = water;
    }
 
-   public int getWater(){
+   public Integer getWater(){
       return water;
    }
 
-   public void setGround(int ground){
+   public void setGround(Integer ground){
       this.ground = ground;
    }
 
-   public int getGround(){
+   public Integer getGround(){
       return ground;
    }
 
-   private int water;
-   private int ground;
-   private String url;
+   @PrimaryKey(autoGenerate = true)
+   @ColumnInfo(name = "ActionID")
+   private Integer ActionID;
+
+   @ColumnInfo(name = "Name")
    private String name;
-   private CoffeeMachine coffeeMachine;
+
+   @ColumnInfo(name = "Water")
+   private Integer water;
+
+   @ColumnInfo(name = "Ground")
+   private Integer ground;
+
+   @ColumnInfo(name = "CoffeeMachineURL")
+   private String url;
 }
